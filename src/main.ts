@@ -69,11 +69,8 @@ async function poeTrade() {
       await import('@/poe-trade/packed_dark.css')
       document.getElementById('app')!.innerHTML = html.default;
       vue = new Vue({
-        render: (createElement: Function): typeof Vue.prototype.$createElement => createElement(App),
+        render: (createElement: Function): typeof Vue.prototype.$createElement => createElement(App, {props: {blockName: getBlockName()}}),
         router,
-        propsData: {
-          blockName: getBlockName(),
-        },
         el: '#contentstart',
         store,
         vuetify,
@@ -84,11 +81,8 @@ async function poeTrade() {
 
 
       vue = new Vue({
-        render: (createElement: Function): typeof Vue.prototype.$createElement => createElement(App),
+        render: (createElement: Function): typeof Vue.prototype.$createElement => createElement(App, {props: {blockName: getBlockName()}}),
         router,
-        propsData: {
-          blockName: getBlockName(),
-        },
         el: '#contentstart',
         store,
         vuetify,

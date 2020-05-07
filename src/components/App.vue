@@ -56,7 +56,7 @@ export default class App extends Vue {
   private block = false;
 
   @Prop({default: ''})
-  private blockName = '';
+  private blockName;
   private complexPrice = false;
   private price = 'My offer is 1 chaos';
 
