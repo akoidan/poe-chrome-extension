@@ -12,7 +12,7 @@ module.exports = merge(config, {
   module: {
     rules: [
       {
-        test: /\.(sass|css|scss)$/,
+        test: /\.(sass|scss)$/,
         use: ["vue-style-loader", 'css-loader?sourceMap', sassLoader],
       },
       fileLoader("/")

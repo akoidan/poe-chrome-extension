@@ -1,40 +1,101 @@
 <template>
-  <v-app id="inspire">
-    <div class="alerts">
-      <app-alert
-        v-for="alert in alerts"
-        :key="alert.id"
-        :alert="alert"
-        dismissible
-        @close="close(alert)"
-      />
-    </div>
-    <router-view/>
-  </v-app>
+  <div class="ahk-main no-marg-b">
+    <table>
+      <tr v-if="complexPrice">
+        <div v-for="a in aff"></div>
+      </tr>
+      <tr>
+        <td class="kms">
+          <span v-if="complexPrice">Complex price</span>
+          <input type="text" v-else v-model="price"/>
+        </td>
+        <td>
+          <div >
+            <poe-trade-checkbox class="topB" v-model="complexPrice"/>
+          </div>
+        </td>
+        <td class="fsd">
+          <button @click="save">Create File</button>
+        </td>
+        <td>
+          <button @click="reinit">Reinit</button>
+        </td>
+      </tr>
+      <tr>
+        <td class="kms"><input type="text" v-model="blockName"/></td>
+        <td>
+          <div>
+            <poe-trade-checkbox class="topB" v-model="block"/>
+          </div>
+        </td>
+        <td class="fsd">
+          <button @click="showBlockInfo">Show Block Info</button>
+        </td>
+        <td >
+          <button @click="clear">Clear</button>
+        </td>
+      </tr>
+    </table>
+  </div>
 </template>
 <script lang="ts">
-import {AlertsState, alertsModule} from "@/store/modules/alerts";
-import {Component, Vue} from "vue-property-decorator";
+import {clearBlock, init, saveCurrentData, showBlockInfo, getMods} from '@/utils/poeTrade'
+import PoeTradeCheckbox from '@/components/PoeTradeCheckbox.vue'
+
+
+import {Component, Emit, Prop, Vue} from "vue-property-decorator";
 import {AlertModel} from "@/types/model";
-import AppAlert from "@/components/ui/AppAlert.vue";
 
-@Component({
-  components: {AppAlert},
-})
+@Component({components: {PoeTradeCheckbox}})
 export default class App extends Vue {
-  @AlertsState
-  public alerts!: AlertModel[];
 
-  private close(alert: AlertModel): void {
-    alertsModule.removeAlert(alert);
+  @Prop({default: false})
+  public readonly dismissible!: boolean;
+
+  private status = '';
+  private block = false;
+
+  @Prop({default: ''})
+  private blockName = '';
+  private complexPrice = false;
+  private price = 'My offer is 1 chaos';
+
+  @Prop()
+  public readonly alert!: AlertModel;
+
+  @Emit()
+  private close(): AlertModel {
+    return this.alert;
+  }
+
+  reinit() {
+    init();
+  }
+
+  save () {
+    saveCurrentData(this.block && this.blockName? this.blockName : false, this.price);
+  }
+
+  clear() {
+    clearBlock(this.blockName);
+  }
+  showBlockInfo () {
+    alert(showBlockInfo(this.blockName));
+  }
+
+  get aff() {
+    return getMods();
   }
 }
+
 </script>
 <style lang="sass" scoped>
-  .alerts
-    padding: 5px
-    position: fixed
-    right: 5px
-    top: 5px
-    z-index: 10
+  .fsd
+    min-width: 180px
+  button
+    width: 100%
+  .kms
+    width: 100%
+  .topB
+    margin-bottom: 0
 </style>

@@ -43,6 +43,14 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.html$/i,
+        use: 'raw-loader',
+      },
+      {
+        test: /\.css$/,
+        use: ["vue-style-loader", 'css-loader?sourceMap&-url'],
+      },
+      {
         test: /\.ts$/,
         use: [{
           loader: 'babel-loader',
