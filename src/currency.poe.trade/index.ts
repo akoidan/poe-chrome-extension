@@ -2,7 +2,7 @@ import {sleep} from "@/utils/helpers";
 import Vue from "vue";
 import { Vuetify } from "vuetify";
 
-import App from "@/poe.trade/App.vue";
+import App from "@/currency.poe.trade/App.vue";
 import {Store} from "vuex";
 import {IRootState} from "@/types/store";
 
@@ -20,26 +20,17 @@ async function getProdHtmlNode() {
 }
 
 
-function getBlockName() {
-  let innerHTML2 = document.querySelector('#base_chosen a span')!.innerHTML;
-  if (innerHTML2 === 'any') {
-    innerHTML2 = '';
-  }
-  let blockName = (document.getElementById('name') as HTMLInputElement).value || innerHTML2;
-  return blockName;
-}
-
 
 async function getDevHtmlNode() {
   import("@/assets/packed_dark.css");
-  const content =  await import ("@/poe.trade/content.html");
+  const content =  await import ("@/currency.poe.trade/content.html");
   document.getElementById('app')!.innerHTML = content.default;
   return document.getElementById('contentstart');
 }
 
 async function getVueApp({el, store, vuetify}: {el: HTMLElement, store: Store<IRootState>, vuetify: Vuetify}) {
   return new Vue({
-    render: (createElement: Function): typeof Vue.prototype.$createElement => createElement(App, {props: {blockName: getBlockName()}}),
+    render: (createElement: Function): typeof Vue.prototype.$createElement => createElement(App),
     el,
     store,
     vuetify,

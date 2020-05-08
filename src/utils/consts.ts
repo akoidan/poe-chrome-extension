@@ -12,7 +12,6 @@ const {
   // True will result a debug build. Loggers would logs all, global scope would have debug variables, etc
   IS_DEBUG,
   // True if `/home` style pages would be used instead of `/#home`
-  ROUTER_HISTORY_MODE,
   APP_TARGET,
 } = CONSTS;
 
@@ -20,9 +19,8 @@ export const ApiConsts: Consts = {
   API_URL,
   APP_VERSION,
   DISPLAY_ALERTS_MS: 30000,
-  HELP_URL: "https://github.com/akoidan/vue-webpack-typescript",
   IS_DEBUG,
+  FILE_NAME: "buyItemsList.txt",
   MAX_ERROR_NUMBER: 3,
-  ROUTER_HISTORY_MODE,
   APP_TARGET,
 };

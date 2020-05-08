@@ -1,12 +1,3 @@
-interface Branch {
-  "name": string;
-  "commit": {
-    "sha": string;
-    "url": string;
-  };
-  "protected": boolean;
-}
-
 type AlertType = "success" | "info" | "error";
 
 interface AlertModel {
@@ -19,8 +10,7 @@ interface Consts {
   IS_DEBUG: boolean;
   APP_VERSION?: string;
   API_URL: string;
-  HELP_URL: string;
-  ROUTER_HISTORY_MODE: "hash" | "history";
+  FILE_NAME: string;
   DISPLAY_ALERTS_MS: number;
   MAX_ERROR_NUMBER: number;
   APP_TARGET: "pathofexile.com" | "poe.trade";
@@ -38,5 +28,4 @@ export {
   AlertType,
   Consts,
   RequestOptions,
-  Branch,
 };

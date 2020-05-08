@@ -1,5 +1,3 @@
-import {Branch} from "@/types/model";
-import {CommitResponse} from "@/types/gitCommit";
 import {Logger} from "lines-logger";
 import {Xhr} from "@/utils/xhr";
 
@@ -17,17 +15,11 @@ export class Api {
     this.xhr = xhr;
   }
 
-  public async getBranches(): Promise<Branch[]> {
-    return this.xhr.doRequest({
-      method: "GET",
-      url: "/branches",
-    });
-  }
+  // public async getBranches(): Promise<Branch[]> {
+  //   return this.xhr.doRequest({
+  //     method: "GET",
+  //     url: "/branches",
+  //   });
+  // }
 
-  public async getCommit(sha: string): Promise<CommitResponse> {
-    return this.xhr.doRequest({
-      method: "GET",
-      url: `/commits/${sha}`,
-    });
-  }
 }

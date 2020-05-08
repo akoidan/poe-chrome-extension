@@ -22,8 +22,8 @@
 </style>
 <script>
 
-  import {clearBlock, init, saveCurrencyData, saveCurrentData, showBlockInfo} from '@/poe.trade/poeTrade'
-  import PoeTradeCheckbox from '@/poe.trade/PoeTradeCheckbox.vue'
+  import {saveCurrencyData} from '@/currency.poe.trade/utils'
+  import PoeTradeCheckbox from '@/components/PoeTradeCheckbox.vue'
 
   export default {
     name: 'app-currency',

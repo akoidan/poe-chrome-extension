@@ -37,7 +37,7 @@
 </template>
 <script lang="ts">
 import {clearBlock, init, saveCurrentData, showBlockInfo} from '@/poe.trade/utils'
-import PoeTradeCheckbox from '@/poe.trade/PoeTradeCheckbox.vue'
+import PoeTradeCheckbox from '@/components/PoeTradeCheckbox.vue'
 
 
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
@@ -70,7 +70,7 @@ export default class App extends Vue {
   }
 
   save () {
-    saveCurrentData(this.block && this.blockName? this.blockName : false, this.price);
+    saveCurrentData(this.block && this.blockName? this.blockName : '', this.price);
   }
 
   clear() {

@@ -1,6 +1,6 @@
 [![HitCount](http://hits.dwyl.io/akoidan/poe-chrome-extension.svg)](http://hits.dwyl.io/akoidan/poe-chrome-extension) [![Build Status](https://api.travis-ci.org/akoidan/poe-chrome-extension.svg?branch=master)](https://travis-ci.org/akoidan/poe-chrome-extension) [![codecov](https://codecov.io/gh/akoidan/poe-chrome-extension/branch/master/graph/badge.svg)](https://codecov.io/gh/akoidan/poe-chrome-extension)
 
-# poe-chrome-extension project starter
+# poe-chrome-extension
 
 This project is generated via [akoidan/vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript). It improves functionality of poe.trade and pathofexile.com/trade site by adding ability to whisper message w/o copying them manually. In order to use it just install [this chrome extension](https://chrome.google.com/webstore/detail/poe-trade-ahk/hiknemifbkgijpadbibhbbibenelkjoj)
 
@@ -438,7 +438,6 @@ import VueRouter, {RawLocation, Route, RouteRecord} from "vue-router"; // Multip
 import {globalLogger, jwtStorage} from "@/utils/singletons"; // multiple imports start with lowercase `globalLogger`
 import DemoPage from "@/components/pages/DemoPage.vue"; // single import with lowercase
 import HomePage from "@/components/pages/HomePage.vue"; // single import with lowercase but alphabetically next
-import {ROUTER_HISTORY_MODE} from "@/utils/consts"; // this is still a single import from a capital letter
 import {defaultModule} from "@/store/default"; // this is a single import with a lower letter
 ```
 
@@ -450,7 +449,7 @@ import {defaultModule} from "@/store/default"; // this is a single import with a
  - cypress test is run on different browser when you run it locally, the source of truth is drone/ci here. Thing like screenshot could also be different. So this things should be aligned in the future if any issues occur.
 
 ## TODO
- - ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/akoidan/poe-chrome-extension) 
+ - ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/akoidan/poe-chrome-extension)
  - @for sass loops doesn't work in linter https://github.com/AleshaOleg/postcss-sass/issues/53
  - https://github.com/bahmutov/cypress-vue-unit-test
  - https://github.com/vuejs/eslint-plugin-vue/issues/987
