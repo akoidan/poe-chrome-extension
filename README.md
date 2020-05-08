@@ -1,13 +1,8 @@
-[![HitCount](http://hits.dwyl.io/akoidan/vue-webpack-typescript.svg)](http://hits.dwyl.io/akoidan/vue-webpack-typescript) [![Build Status](https://api.travis-ci.org/akoidan/vue-webpack-typescript.svg?branch=master)](https://travis-ci.org/akoidan/vue-webpack-typescript) [![codecov](https://codecov.io/gh/akoidan/vue-webpack-typescript/branch/master/graph/badge.svg)](https://codecov.io/gh/akoidan/vue-webpack-typescript)
+[![HitCount](http://hits.dwyl.io/akoidan/poe-chrome-extension.svg)](http://hits.dwyl.io/akoidan/poe-chrome-extension) [![Build Status](https://api.travis-ci.org/akoidan/poe-chrome-extension.svg?branch=master)](https://travis-ci.org/akoidan/poe-chrome-extension) [![codecov](https://codecov.io/gh/akoidan/poe-chrome-extension/branch/master/graph/badge.svg)](https://codecov.io/gh/akoidan/poe-chrome-extension)
 
-# Vue-webpack-typescript project starter
+# poe-chrome-extension project starter
 
-This project is generated via [vue-webpack-minimal](https://github.com/akoidan/vue-webpack-typescript) and features:
- - typescript loading with babel with typechecking in a parallel thread. Everything (vuex, cypress, vue-data) is type safe!
- - vue with vuetify, vuex, router, sass, vuex-module-decorators, vue-property-decorator support typescript
- - cypress with code-coverage support, unit test support, screenshot assert and typescript support.
- - lint: a compilation of very strict lint rules for everything: vue, styles (sass), typescript that don't conflict with each other.
- - base example of CRUD pages with written api classes, tests and predefined structure
+This project is generated via [akoidan/vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript). It improves functionality of poe.trade and pathofexile.com/trade site by adding ability to whisper message w/o copying them manually. In order to use it just install [this chrome extension](https://chrome.google.com/webstore/detail/poe-trade-ahk/hiknemifbkgijpadbibhbbibenelkjoj)
 
 ## Get started
 
@@ -455,7 +450,7 @@ import {defaultModule} from "@/store/default"; // this is a single import with a
  - cypress test is run on different browser when you run it locally, the source of truth is drone/ci here. Thing like screenshot could also be different. So this things should be aligned in the future if any issues occur.
 
 ## TODO
- - ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/akoidan/vue-webpack-typescript) 
+ - ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/akoidan/poe-chrome-extension) 
  - @for sass loops doesn't work in linter https://github.com/AleshaOleg/postcss-sass/issues/53
  - https://github.com/bahmutov/cypress-vue-unit-test
  - https://github.com/vuejs/eslint-plugin-vue/issues/987
