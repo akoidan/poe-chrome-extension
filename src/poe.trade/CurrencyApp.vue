@@ -18,12 +18,12 @@
             width: calc(50% - 90px)
             margin-right: 5px
         > button
-            width: 150pxty
+            width: 150px
 </style>
 <script>
 
-  import {clearBlock, init, saveCurrencyData, saveCurrentData, showBlockInfo} from '@/utils/poeTrade'
-  import PoeTradeCheckbox from '@/components/PoeTradeCheckbox.vue'
+  import {clearBlock, init, saveCurrencyData, saveCurrentData, showBlockInfo} from '@/poe.trade/poeTrade'
+  import PoeTradeCheckbox from '@/poe.trade/PoeTradeCheckbox.vue'
 
   export default {
     name: 'app-currency',

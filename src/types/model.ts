@@ -23,6 +23,7 @@ interface Consts {
   ROUTER_HISTORY_MODE: "hash" | "history";
   DISPLAY_ALERTS_MS: number;
   MAX_ERROR_NUMBER: number;
+  APP_TARGET: "pathofexile.com" | "poe.trade";
 }
 interface RequestOptions<T> {
   url: string;

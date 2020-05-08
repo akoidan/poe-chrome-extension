@@ -10,7 +10,7 @@
 </template>
 <script>
 
-  import {saveCurrentData} from '@/utils/poeTrade'
+  import {saveCurrentData} from '@/poe.trade/utils'
 
   export default {
     name: 'poe-trade-checkbox',

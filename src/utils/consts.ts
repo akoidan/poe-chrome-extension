@@ -13,6 +13,7 @@ const {
   IS_DEBUG,
   // True if `/home` style pages would be used instead of `/#home`
   ROUTER_HISTORY_MODE,
+  APP_TARGET,
 } = CONSTS;
 
 export const ApiConsts: Consts = {
@@ -23,4 +24,5 @@ export const ApiConsts: Consts = {
   IS_DEBUG,
   MAX_ERROR_NUMBER: 3,
   ROUTER_HISTORY_MODE,
+  APP_TARGET,
 };

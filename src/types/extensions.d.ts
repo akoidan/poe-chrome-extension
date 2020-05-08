@@ -5,6 +5,10 @@ declare module "*.vue" { // eslint-disable-line import/unambiguous
 }
 
 declare module "*.jpg" {}
+declare module "*.html" {
+  const contents: string
+  export = contents;
+}
 declare module "*.svg" {}
 declare module "*.gif" {}
 declare module "*.json" {

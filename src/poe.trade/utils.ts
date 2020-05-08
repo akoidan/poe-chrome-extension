@@ -1,11 +1,11 @@
 import FileSaver from 'file-saver'
-import PoeItem from "./poe-item";
+import PoeItem from "@/utils/poe-item";
 
 import notable from '@/utils/cluster-jewels/notable.json';
 import minor from '@/utils/cluster-jewels/minor.json';
 import keystones from '@/utils/cluster-jewels/keystones.json';
 
-var clusterJewels = Object.assign({}, notable, minor, keystones);
+var clusterJewels: { [id: string]: string } = Object.assign({}, notable, minor, keystones);
 
 function getDefaultOffer(userText: string) {
   return function (element: HTMLElement) {
@@ -16,7 +16,7 @@ function getDefaultOffer(userText: string) {
 function whisperMessage(o: HTMLElement) {
   let getData = (function () {
     let item: HTMLElement = o.closest(".item") as HTMLElement;
-    return function (attr: string): string|null {
+    return function (attr: string): string | null {
       return item.getAttribute('data-' + attr);
     }
   })();
@@ -39,12 +39,12 @@ function whisperMessage(o: HTMLElement) {
   return message;
 }
 
-function getCalcOffer(paramNames: unknown[], paramMap: {[id: string]: string}) {
+function getCalcOffer(paramNames: string[], paramMap: { [id: string]: string }) {
   return function (element: HTMLElement) {
     let summ = 0;
-    paramNames.forEach(function (p) {
-      let v = getAttr(element, p);
-      if (isNaN(v)) {
+    paramNames.forEach((p) => {
+      let v: string = getAttr(element, p)!;
+      if (isNaN(v as unknown as number)) {
         console.warn(element, v + " is nan");
       } else {
         summ += parseInt(v);
@@ -58,8 +58,9 @@ function getCalcOffer(paramNames: unknown[], paramMap: {[id: string]: string}) {
     }
   }
 }
-function escapeHtml(html) {
-  let escapeMap = {
+
+function escapeHtml(html: string) {
+  let escapeMap: { [id: string]: string } = {
     '#': '{#}',
     '+': '{+}',
     '{': '{{}',
@@ -71,14 +72,14 @@ function escapeHtml(html) {
   });
 }
 
-export function saveCurrentData(block, offer) {
-  let offerStr= getDefaultOffer(offer);
-    // offer = getCalcOffer(request.attributes.paramNames, request.attributes.paramMap);
+export function saveCurrentData(block: string, offer: string) {
+  let offerStr = getDefaultOffer(offer);
+  // offer = getCalcOffer(request.attributes.paramNames, request.attributes.paramMap);
   let result = parsePage(block, offerStr);
   saveToFile(result);
 }
 
-function saveToFile(data) {
+function saveToFile(data: string) {
   let escaped = escapeHtml(data);
   FileSaver.saveAs(new Blob([escaped], {
     type: "text/plain;charset=utf-8"
@@ -86,7 +87,7 @@ function saveToFile(data) {
   return true;
 }
 
-function findGetParameter(parameterName) {
+function findGetParameter(parameterName: string) {
   var result = null,
       tmp = [];
   var items = location.search.substr(1).split("&");
@@ -97,56 +98,56 @@ function findGetParameter(parameterName) {
   return result;
 }
 
-function createOffer(o) {
+function createOffer(o: HTMLElement) {
   return {
     "username": o.getAttribute("data-username"),
-    "sellcurrency": parseInt(o.getAttribute("data-sellcurrency")),
-    "buycurrency": parseInt(o.getAttribute("data-buycurrency")),
-    "sellvalue": parseFloat(o.getAttribute("data-sellvalue")),
-    "buyvalue": parseFloat(o.getAttribute("data-buyvalue")),
+    "sellcurrency": parseInt(o.getAttribute("data-sellcurrency")!),
+    "buycurrency": parseInt(o.getAttribute("data-buycurrency")!),
+    "sellvalue": parseFloat(o.getAttribute("data-sellvalue")!),
+    "buyvalue": parseFloat(o.getAttribute("data-buyvalue")!),
     "ign": o.getAttribute("data-ign"),
     "stock": o.getAttribute("data-stock"),
   };
 }
 
-export function saveCurrencyData(amount, limit) {
+export function saveCurrencyData(amount: number, limit: number) {
   let data = parseCurrencyPage(amount, limit);
   saveToFile(data);
 }
 
-export function clearBlock(block) {
+export function clearBlock(block: string) {
   new Blocker(block).clear();
 }
 
-export function showBlockInfo(block) {
+export function showBlockInfo(block: string) {
   return new Blocker(block).getTodayBlockInfo();
 }
 
 
 function appendAccount() {
-  [].forEach.call(document.querySelectorAll('[data-seller]'), e => e.querySelector('h5').innerHTML += e.getAttribute('data-seller'))
+  [].forEach.call(document.querySelectorAll('[data-seller]'), (e: HTMLElement) => e.querySelector('h5')!.innerHTML += e.getAttribute('data-seller'))
 }
 
 export function getMods() {
   let modDivs = document.querySelectorAll('.mods [data-name]');
-  let modNames = [].map.call(modDivs, a => a.getAttribute('data-name'));
-  let excludeMods = item => item.indexOf('#(enchant)') < 0;
+  let modNames : string[]= [].map.call(modDivs, (a: HTMLElement) => a.getAttribute('data-name')) as string[];
+  let excludeMods = (item: string) => item.indexOf('#(enchant)') < 0;
   return modNames.filter((item, pos) => modNames.indexOf(item) === pos && excludeMods(item));
 }
 
 
-function copyTextToClipboard(text) {
+function copyTextToClipboard(text: string) {
   let textArea = document.createElement("textarea");
   // Place in top-left corner of screen regardless of scroll position.
   textArea.style.position = 'fixed';
-  textArea.style.top = 0;
-  textArea.style.left = 0;
+  textArea.style.top = '0';
+  textArea.style.left = '0';
   // Ensure it has a small width and height. Setting to 1px / 1em
   // doesn't work as this gives a negative w/h on some browsers.
   textArea.style.width = '2em';
   textArea.style.height = '2em';
   // We don't need padding, reducing the size if it does flash render.
-  textArea.style.padding = 0;
+  textArea.style.padding = '0';
   // Clean up any borders.
   textArea.style.border = 'none';
   textArea.style.outline = 'none';
@@ -168,14 +169,15 @@ function copyTextToClipboard(text) {
 
 
 function poeClip() {
-  [].forEach.call(document.querySelectorAll('*[id^="item-container-"]'), e => {
+  [].forEach.call(document.querySelectorAll('*[id^="item-container-"]'), (e: HTMLElement) => {
     let li = document.createElement('li');
     let a = document.createElement('a');
     li.appendChild(a);
-    e.querySelector('.requirements .proplist').appendChild(li);
+    e.querySelector('.requirements .proplist')!.appendChild(li);
     var clusterMods = e.querySelectorAll('li[data-name*="Added Passive Skill is"]');
-    clusterMods.forEach(clusterMode => {
-      let match = /#\w Added Passive Skill is (.*)/.exec(clusterMode.getAttribute('data-name'));
+    clusterMods.forEach(clusterModeRaw => {
+      let clusterMode: HTMLElement = clusterModeRaw as HTMLElement;
+      let match = /#\w Added Passive Skill is (.*)/.exec(clusterMode.getAttribute('data-name')!);
       if (match && clusterJewels[match[1]]) {
         clusterMode.title = clusterJewels[match[1]];
       }
@@ -196,21 +198,25 @@ export function init() {
 }
 
 function getAttr(element: HTMLElement, atr: string) {
-  return element.closest(".item").querySelector('[data-name="' + atr + '"]').getAttribute('data-value');
+  return element.closest(".item")!.querySelector(`[data-name="${atr}"]`)!.getAttribute('data-value');
 }
 
 class Blocker {
-  constructor(blockName) {
+
+  lsPerma: string;
+  lsToday: string;
+
+  constructor(blockName: string) {
     this.lsPerma = blockName;
-    this.lsToday = blockName +'t';
+    this.lsToday = blockName + 't';
   }
 
-  getLocalStorage(key) {
+  getLocalStorage(key: string): string[] {
     let value = localStorage.getItem(key);
     return value ? JSON.parse(value) : [];
   }
 
-  setLocalStorage(key, value) {
+  setLocalStorage(key: string, value: string[]) {
     localStorage.setItem(key, JSON.stringify(value));
   };
 
@@ -223,13 +229,13 @@ class Blocker {
     localStorage.removeItem(this.lsToday);
   }
 
-  blockPerson(name) {
+  blockPerson(name: string) {
     let list = this.getLocalStorage(this.lsPerma);
     list.push(name);
     this.setLocalStorage(this.lsPerma, list);
   };
 
-  blockToday(name) {
+  blockToday(name: string) {
     let list = this.getLocalStorage(this.lsToday);
     list.push(name);
     this.setLocalStorage(this.lsToday, list);
@@ -243,7 +249,7 @@ class Blocker {
     return this.getLocalStorage(this.lsToday);
   };
 
-  isAvailable(name) {
+  isAvailable(name: string) {
     return this.getPermaBlock().indexOf(name) < 0 && this.getTodayBlock().indexOf(name) < 0;
   };
 }
@@ -254,12 +260,12 @@ function getCurrencyText() {
   if (res && res[1]) {
     return JSON.parse(res[1]);
   } else {
-    alert ("can't evaluate CURRENCY_TEXTS var ");
+    alert("can't evaluate CURRENCY_TEXTS var ");
     throw "Invalid state exception";
   }
 }
 
-function parseCurrencyPage(amount, limit) {
+function parseCurrencyPage(amount: number, limit: number) {
   let els = document.querySelectorAll('.displayoffer');
   let outstr = '';
   let CURRENCY_TEXTS = getCurrencyText();
@@ -309,20 +315,20 @@ function parseCurrencyPage(amount, limit) {
 }
 
 
-function parsePage(blockName, getOffer) {
-  let ls;
+function parsePage(blockName: string, getOffer: Function) {
+  let ls: Blocker;
   if (blockName) {
     ls = new Blocker(blockName);
   }
   let outStr = "";
-  let getParent = function (el) {
-    return el.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+  let getParent = function (el: HTMLElement) {
+    return el.parentElement!.parentElement!.parentElement!.parentElement!.parentElement!.parentElement;
   };
-  let uniqueIgn = {};
+  let uniqueIgn: { [id: string]: string } = {};
   let ign = document.querySelectorAll('.whisper-btn');
   [].forEach.call(ign, function (btn) {
     let el = getParent(btn);
-    let name = el.getAttribute('data-ign');
+    let name: string = el!.getAttribute('data-ign')!;
     if (blockName) {
       if (ls.isAvailable(name)) {
         ls.blockToday(name);

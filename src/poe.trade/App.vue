@@ -1,9 +1,6 @@
 <template>
   <div class="ahk-main no-marg-b">
     <table>
-      <tr v-if="complexPrice">
-        <div v-for="a in aff"></div>
-      </tr>
       <tr>
         <td class="kms">
           <span v-if="complexPrice">Complex price</span>
@@ -39,8 +36,8 @@
   </div>
 </template>
 <script lang="ts">
-import {clearBlock, init, saveCurrentData, showBlockInfo, getMods} from '@/utils/poeTrade'
-import PoeTradeCheckbox from '@/components/PoeTradeCheckbox.vue'
+import {clearBlock, init, saveCurrentData, showBlockInfo} from '@/poe.trade/utils'
+import PoeTradeCheckbox from '@/poe.trade/PoeTradeCheckbox.vue'
 
 
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";
@@ -56,7 +53,7 @@ export default class App extends Vue {
   private block = false;
 
   @Prop({default: ''})
-  private blockName;
+  private readonly blockName!: string;
   private complexPrice = false;
   private price = 'My offer is 1 chaos';
 
@@ -82,20 +79,19 @@ export default class App extends Vue {
   showBlockInfo () {
     alert(showBlockInfo(this.blockName));
   }
-
-  get aff() {
-    return getMods();
-  }
 }
 
 </script>
 <style lang="sass" scoped>
   .fsd
     min-width: 180px
+
   button
     width: 100%
+
   .kms
     width: 100%
+
   .topB
     margin-bottom: 0
 </style>
