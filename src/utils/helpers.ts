@@ -31,4 +31,67 @@ function saveToFile(data: string) {
   return true;
 }
 
-export {sleep, getUniqueId, escapeHtml, saveToFile};
+
+export function clearBlock(block: string) {
+  new Blocker(block).clear();
+}
+
+export function showBlockInfo(block: string) {
+  return new Blocker(block).getTodayBlockInfo();
+}
+
+class Blocker {
+
+  lsPerma: string;
+  lsToday: string;
+
+  constructor(blockName: string) {
+    this.lsPerma = blockName;
+    this.lsToday = blockName + 't';
+  }
+
+  getLocalStorage(key: string): string[] {
+    let value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : [];
+  }
+
+  setLocalStorage(key: string, value: string[]) {
+    localStorage.setItem(key, JSON.stringify(value));
+  };
+
+  getTodayBlockInfo() {
+    return localStorage.getItem(this.lsToday);
+  }
+
+  clear() {
+    localStorage.removeItem(this.lsPerma);
+    localStorage.removeItem(this.lsToday);
+  }
+
+  blockPerson(name: string) {
+    let list = this.getLocalStorage(this.lsPerma);
+    list.push(name);
+    this.setLocalStorage(this.lsPerma, list);
+  };
+
+  blockToday(name: string) {
+    let list = this.getLocalStorage(this.lsToday);
+    list.push(name);
+    this.setLocalStorage(this.lsToday, list);
+  };
+
+  getPermaBlock() {
+    return this.getLocalStorage(this.lsPerma);
+  };
+
+  getTodayBlock() {
+    return this.getLocalStorage(this.lsToday);
+  };
+
+  isAvailable(name: string) {
+    return this.getPermaBlock().indexOf(name) < 0 && this.getTodayBlock().indexOf(name) < 0;
+  };
+}
+
+
+export {sleep, getUniqueId, escapeHtml, saveToFile, Blocker};

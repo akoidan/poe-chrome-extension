@@ -4,5 +4,6 @@
   "APP_TEST": false,
   "APP_FILE_MODE": false,
   "APP_VERSION": null,
-  "APP_TARGET": null
+  "APP_TARGET": null,
+  "APP_WATCH": false
 }

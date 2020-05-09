@@ -18,7 +18,7 @@ window.xhr = xhr;
 
 
 (async function () {
-  const hostname: string = window.location.hostname;
+  const hostname: string = /^(www\.)?(?<host>.*)$/u.exec(window.location.hostname)?.groups?.host!;
 
   let el;
   let getVueApp;

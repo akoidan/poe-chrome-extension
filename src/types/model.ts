@@ -11,6 +11,8 @@ interface Consts {
   APP_VERSION?: string;
   API_URL: string;
   FILE_NAME: string;
+  LOAD_MORE_TIMES: number;
+  LOAD_MORE_WHISPERS: number;
   DISPLAY_ALERTS_MS: number;
   MAX_ERROR_NUMBER: number;
   APP_TARGET: "pathofexile.com" | "poe.trade" | null;

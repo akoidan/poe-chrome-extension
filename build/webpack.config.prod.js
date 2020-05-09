@@ -14,6 +14,7 @@ module.exports = merge(config, {
     crossOriginLoading: getConfig('APP_FILE_MODE') ? false: 'anonymous',
     publicPath: getConfig('APP_PUBLIC_PATH')
   },
+  watch: !!getConfig('APP_WATCH'),
   module: {
     rules: [
       {
@@ -34,11 +35,11 @@ module.exports = merge(config, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new ZipPlugin({
+    ...(!getConfig('APP_WATCH') ? [new ZipPlugin({
       // OPTIONAL: defaults to the Webpack output filename (above) or,
       // if not present, the basename of the path
       filename: 'package.zip',
-    }),
+    })] : []),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../src/package'),

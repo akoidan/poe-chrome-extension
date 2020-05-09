@@ -1,12 +1,8 @@
-import {LogStrict, Logger, LoggerFactory} from "lines-logger";
+import {Logger, LoggerFactory, LogStrict} from "lines-logger";
 import {Api} from "@/utils/api";
-import {ApiConsts} from "@/utils/consts";
 import {Xhr} from "@/utils/xhr";
 
-// istanbul ignore next-line ignore IS_DEBUG on next line
-const loggerFactory: LoggerFactory = new LoggerFactory(
-  ApiConsts.IS_DEBUG ? LogStrict.LOG_RAISE_ERROR : LogStrict.ERROR,
-);
+const loggerFactory: LoggerFactory = new LoggerFactory(LogStrict.TRACE);
 
 const xhr: Xhr = new Xhr(
   loggerFactory.getLoggerColor("http", "#680061"),
