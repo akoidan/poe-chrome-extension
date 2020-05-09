@@ -31,8 +31,8 @@ function getBlockName() {
 
 
 async function getDevHtmlNode() {
-  import("@/assets/packed_dark.css");
-  const content =  await import ("@/poe.trade/content.html");
+  import(/* webpackChunkName: "poe.trade.css" */"@/assets/packed_dark.css");
+  const content =  await import (/* webpackChunkName: "poe.trade.html" */"@/poe.trade/content.html");
   document.getElementById('app')!.innerHTML = content.default;
   return document.getElementById('contentstart');
 }

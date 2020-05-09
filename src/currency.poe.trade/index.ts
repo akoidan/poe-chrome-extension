@@ -23,7 +23,7 @@ async function getProdHtmlNode() {
 
 async function getDevHtmlNode() {
   import("@/assets/packed_dark.css");
-  const content =  await import ("@/currency.poe.trade/content.html");
+  const content =  await import (/* webpackChunkName: "currency.poe.trade.html" */"@/currency.poe.trade/content.html");
   document.getElementById('app')!.innerHTML = content.default;
   return document.getElementById('contentstart');
 }

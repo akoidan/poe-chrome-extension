@@ -1,10 +1,10 @@
 const merge = require('webpack-merge');
 const config = require('./webpack.config.base');
+const path = require('path')
 const {sassLoader, fileLoader, getDefinitions, getConfig} = require('./utils');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const SriPlugin = require('webpack-subresource-integrity');
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const ZipPlugin = require('zip-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = merge(config, {
@@ -34,32 +34,22 @@ module.exports = merge(config, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      template: '../src/index.ejs',
-      inject: false,
-      favicon: '../src/assets/favicon.ico',
-      hash: true,
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-        removeRedundantAttributes: true,
-        removeScriptTypeAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        useShortDoctype: true
-      }
+    new ZipPlugin({
+      // OPTIONAL: defaults to the Webpack output filename (above) or,
+      // if not present, the basename of the path
+      filename: 'package.zip',
     }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/package'),
+        to: '',
+        ignore: ['.*']
+      }
+    ]),
     getDefinitions(false),
-    new OptimizeCSSAssetsPlugin({
-      cssProcessorOptions: {
-        map: {
-          inline: false
-        }
-      }
-    }),
-    new SriPlugin({
-      hashFuncNames: ['sha256', 'sha384'],
-      enabled: !getConfig('APP_FILE_MODE'),
-    }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+      chunkFilename: 'css/[name].css',
+    })
   ]
 });

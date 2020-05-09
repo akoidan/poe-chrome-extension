@@ -26,9 +26,18 @@ module.exports = {
       '@': path.join(__dirname, '..', 'src')
     }
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      automaticNameDelimiter: '-', // override default `~` since files with  ~ is not supported by chrome
+    },
+    minimize: false
+  },
   output: {
     crossOriginLoading: 'anonymous',
-    publicPath: getConfig('APP_PUBLIC_PATH')
+    publicPath: getConfig('APP_PUBLIC_PATH'),
+    filename: 'js/[name].js',
+    chunkFilename: 'js/[name].js'
   },
   performance: {
     hints: false,
@@ -44,7 +53,7 @@ module.exports = {
     rules: [
       {
         test: /\.html$/i,
-        use: 'raw-loader',
+        loader: 'raw-loader'
       },
       {
         test: /\.css$/,

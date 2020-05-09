@@ -13,7 +13,7 @@ interface Consts {
   FILE_NAME: string;
   DISPLAY_ALERTS_MS: number;
   MAX_ERROR_NUMBER: number;
-  APP_TARGET: "pathofexile.com" | "poe.trade";
+  APP_TARGET: "pathofexile.com" | "poe.trade" | null;
 }
 interface RequestOptions<T> {
   url: string;

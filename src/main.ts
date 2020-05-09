@@ -18,18 +18,29 @@ window.xhr = xhr;
 
 
 (async function () {
-  const {hostname}: {hostname: string} = window.location;
-  let vue: Vue;
+  const hostname: string = window.location.hostname;
 
-  let targetModule = await import(/* webpackMode: "eager" */ `@/${ApiConsts.APP_TARGET}/`);
   let el;
-  if (['localhost', '0.0.0.0', '127.0.0.1'].indexOf(hostname) >= 0) {
+  let getVueApp;
+  if (ApiConsts.APP_TARGET) {
+    const targetModule = await import(/* webpackMode: "eager" */ `@/${ApiConsts.APP_TARGET}/`);
     el = await targetModule.getDevHtmlNode();
+    getVueApp = targetModule.getVueApp;
   } else {
-    el = await targetModule.getProdHtmlNode();
+    switch (hostname) {
+      case "pathofexile.com":
+      case "currency.poe.trade":
+      case "poe.trade":
+        const targetModule = await import(/* webpackMode: "eager" */ `@/${hostname}/`)
+        getVueApp = targetModule.getVueApp;
+        el = await targetModule.getProdHtmlNode();
+        break;
+      default:
+        throw Error(`Unsupported host ${hostname}`);
+    }
   }
 
-  window.vue =  await targetModule.getVueApp({el, store, vuetify});;
+  window.vue =  await getVueApp({el, store, vuetify});
 
 })();
 
