@@ -13,22 +13,21 @@ export default class RouterWatcher extends Vue {
     return e;
   }
 
-  bindedRouterChange!: (e: Event) => void;
-  oldPushState!: Function;
+  currentRoute: string = '';
+  timeoutFn: number = 0;
 
   created() {
-    this.oldPushState = window.history.pushState;
-    var that = this;
-    that.input(window.location.pathname)
-    window.history.pushState = function (state) {
-      let res =  that.oldPushState.apply(window.history, arguments);
-      that.input(window.location.pathname)
-      return res;
-    };
+    // watch pathname, since history pushstate api doesn't provive watch method if event was created synthethically
+    this.timeoutFn = setInterval(() => {
+      if (window.location.pathname !== this.currentRoute) {
+        this.input(window.location.pathname);
+      }
+      this.currentRoute = window.location.pathname;
+    }, 100) as unknown as number;
   }
 
   destroy(): void {
-    (window.history.pushState as Function) = this.oldPushState;
+    clearInterval(this.timeoutFn);
   }
 
 }

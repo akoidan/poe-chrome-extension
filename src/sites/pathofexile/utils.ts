@@ -59,7 +59,7 @@ export async function getCurrencyData(amount:number|0, priceLimit: number|0): Pr
 
     let inputRange: HTMLInputElement = row.querySelector('[name=points]') as HTMLInputElement;
     let maxValue = inputRange.value;
-    for (let i =0; i<50; i++) {
+    for (let i =0; i<50; i++) { //don't get into eternal loop, set max 50 inputs which is amount of range max value at pathofeixle
       (inputRange.value as unknown as number)++;
       let event = new Event("input"); // trigger official SPA(vue) to rerender
       inputRange.dispatchEvent(event);

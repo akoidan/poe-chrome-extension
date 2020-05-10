@@ -4,7 +4,7 @@
     <bulk-exchange-app v-if="currentRoute.startsWith('/trade/exchange/Delirium')"/>
     <search-app v-else-if="currentRoute.startsWith('/trade/search/Delirium')"/>
     <div v-else class="error">
-      Unknown page {{currentRoute}}
+      Waiting page to appear {{currentRoute}}
     </div>
     <router-watcher v-model="currentRoute"/>
   </app>
@@ -20,9 +20,6 @@ import BulkExchangeApp from "@/sites/pathofexile/BulkExchangeApp.vue";
   components: {BulkExchangeApp, SearchApp, RouterWatcher, App}
 })
 export default class Pathofexile extends Vue {
-
-  route = window.location.hash;
-  page = 'unkown';
 
   currentRoute: string = '';
 
