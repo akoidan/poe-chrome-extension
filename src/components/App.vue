@@ -21,7 +21,6 @@ import {PageState} from "@/store/modules/page";
 import CurrencyPoeTrade from "@/sites/currency-poe-trade/CurrencyPoeTrade.vue";
 import PoeTrade from "@/sites/poe-trade/PoeTrade.vue";
 import Pathofexile from "@/sites/pathofexile/Pathofexile.vue";
-import Pathofexile from "@/sites/pathofexile/Pathofexile.vue";
 
 @Component({
   components: {

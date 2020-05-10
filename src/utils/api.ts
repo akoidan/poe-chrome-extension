@@ -16,8 +16,7 @@ export class Api {
   }
 
   public async getSource(url: string): Promise<string> {
-    let response = await fetch(url);
+    const response = await fetch(url);
     return response.text();
   }
-
 }

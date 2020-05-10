@@ -1,15 +1,17 @@
 <template>
-    <div class="inline">
-        <div>
-            <label>Amount</label>
-            <input type="number" v-model.number="amount"/>
-        </div>
-        <div>
-            <label>Price limit</label>
-            <input type="number" v-model.number="price"/>
-        </div>
-        <button @click="create">Create</button>
+  <div class="inline">
+    <div>
+      <label>Amount</label>
+      <input v-model.number="amount" type="number"/>
     </div>
+    <div>
+      <label>Price limit</label>
+      <input v-model.number="price" type="number"/>
+    </div>
+    <button @click="create">
+      Create
+    </button>
+  </div>
 </template>
 <style lang="sass" scoped>
     .inline
@@ -22,21 +24,21 @@
 </style>
 <script>
 
-  import {saveCurrencyData} from '@/sites/currency-poe-trade/utils'
-  import PoeTradeCheckbox from '@/components/PoeTradeCheckbox.vue'
+import {saveCurrencyData} from "@/sites/currency-poe-trade/utils";
+import PoeTradeCheckbox from "@/components/PoeTradeCheckbox.vue";
 
-  export default {
-    name: 'app-currency',
-    data: function () {
-      return {
-        amount: 0,
-        price: 0,
-      }
+export default {
+  name: "AppCurrency",
+  data() {
+    return {
+      amount: 0,
+      price: 0,
+    };
+  },
+  methods: {
+    create() {
+      saveCurrencyData(this.amount, this.price);
     },
-    methods: {
-      create: function() {
-        saveCurrencyData(this.amount, this.price);
-      },
-    }
-  }
+  },
+};
 </script>

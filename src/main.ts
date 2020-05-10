@@ -10,8 +10,6 @@ import App from "@/components/App.vue";
 
 
 export async function init(el: HTMLElement) {
-
-
   globalLogger.log("Initing poe ahk extension")();
 
 
@@ -23,20 +21,19 @@ export async function init(el: HTMLElement) {
   window.xhr = xhr;
 
 
-  window.vue =  new Vue({
-    render: (createElement: Function): typeof Vue.prototype.$createElement => createElement(App),
+  window.vue = new Vue({
     el,
-    store
+    render: (createElement: Function): typeof Vue.prototype.$createElement => createElement(App),
+    store,
   });
 
 
-  // if (ApiConsts.APP_TARGET) {
-  //   const {getDevHtmlNode} = await import(/* webpackMode: "eager" */ `@/sites/${ApiConsts.APP_TARGET}/`);
-  //   el = await getDevHtmlNode();
+  // If (ApiConsts.APP_TARGET) {
+  //   Const {getDevHtmlNode} = await import(/* webpackMode: "eager" */ `@/sites/${ApiConsts.APP_TARGET}/`);
+  //   El = await getDevHtmlNode();
   // } else {
-  //   const currentPage: CurrentPage = getCurrentPage();
-  //   const {getProdHtmlNode} = await import(/* webpackMode: "eager" */ `@/sites/${currentPage}`)
-  //   el = await getProdHtmlNode();
+  //   Const currentPage: CurrentPage = getCurrentPage();
+  //   Const {getProdHtmlNode} = await import(/* webpackMode: "eager" */ `@/sites/${currentPage}`)
+  //   El = await getProdHtmlNode();
   // }
-
 }

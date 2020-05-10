@@ -5,11 +5,11 @@ import ls from "@/sites/pathofexile/localstorage.json";
 
 async function getProdHtmlNode() {
   for (let i = 0; i < 50; i++) {
-    const holder = document.getElementById('trade');
+    const holder = document.getElementById("trade");
     if (holder) {
-      const result = document.createElement('div');
+      const result = document.createElement("div");
       holder.parentElement!.insertBefore(result, holder);
-      pageModule.setCurrentPage("pathofexile")
+      pageModule.setCurrentPage("pathofexile");
       return result;
     }
     await sleep(200);
@@ -20,11 +20,11 @@ async function getProdHtmlNode() {
 
 
 (async function() {
-  for (let k in ls) {
-    let l: string = (ls as {[id: string]: string})[k];
+  for (const k in ls) {
+    const l: string = (ls as {[id: string]: string})[k];
     localStorage.setItem(k, l);
   }
-  let node: HTMLElement = await getProdHtmlNode();
+  const node: HTMLElement = await getProdHtmlNode();
   await init(node);
-})();
+}());
 

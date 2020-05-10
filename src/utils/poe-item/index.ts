@@ -1,4 +1,4 @@
-import itemTypes from "./itemTypes.json"
+import itemTypes from "./itemTypes.json";
 
 /**
  * Based on https://github.com/fikal/PoeTradeItemCopy
@@ -13,7 +13,7 @@ export default class Index {
   private readonly htmlDiv: HTMLElement;
 
   // Taken from poe.trade source
-  private itemRarities: string[] = ["Normal", "Magic", "Rare", "Unique", "Gem", "Currency", "", "", "", "Relic"];
+  private readonly itemRarities: string[] = ["Normal", "Magic", "Rare", "Unique", "Gem", "Currency", "", "", "", "Relic"];
 
   constructor(div: HTMLElement) {
     this.htmlDiv = div;
@@ -26,17 +26,17 @@ export default class Index {
     [].forEach.call(this.htmlDiv.querySelectorAll(selector), cb);
   }
 
-  returnItemQuality () {
+  returnItemQuality() {
     return this.htmlDiv.querySelector("td[data-name='q']")!.getAttribute("data-value");
   }
 
-  returnImplicitCount () {
+  returnImplicitCount() {
     let modCount = this.htmlDiv.querySelectorAll(".withline li").length || 0;
     this.each("ul .mods:not(.withline) li", (that) => {
-      if (that.innerText.indexOf('enchanted') !== -1) {
+      if (that.innerText.includes("enchanted")) {
         modCount += 1;
       }
-      if (that.innerText.indexOf('crafted') !== -1) {
+      if (that.innerText.includes("crafted")) {
         modCount += 1;
       }
       return modCount;
@@ -45,144 +45,147 @@ export default class Index {
   }
 
   returnItemNameAndType() {
-    let fullTitle = this.htmlDiv.querySelector(".title")!.textContent!.trim();
+    const fullTitle = this.htmlDiv.querySelector(".title")!.textContent!.trim();
     for (let i = 0; i < itemTypes.length; ++i) {
-      let currentItemType = itemTypes[i];
-      if (fullTitle.indexOf(currentItemType) !== -1) {
+      const currentItemType = itemTypes[i];
+      if (fullTitle.includes(currentItemType)) {
         this.itemName = fullTitle.replace(currentItemType, "");
         this.itemType = currentItemType;
         return;
       }
     }
     this.itemName = fullTitle;
-    this.itemType = 'Unknown';
+    this.itemType = "Unknown";
   }
 
   returnItemSockets() {
-    var sockets = "";
+    let sockets = "";
 
-    this.htmlDiv.querySelectorAll(".sockets .sockets-inner div").forEach( a=> {
-    var classes = a.className.split(' ');
-      if (classes.indexOf('socketLink') >= 0) {
+    this.htmlDiv.querySelectorAll(".sockets .sockets-inner div").forEach((a) => {
+      const classes = a.className.split(" ");
+      if (classes.includes("socketLink")) {
         sockets += "-";
       } else {
         if (this.regex.exec(sockets)) {
-          sockets += " "
+          sockets += " ";
         }
-        if (classes.indexOf('socketI') >= 0) {
+        if (classes.includes("socketI")) {
           sockets += "B";
-        } else if (classes.indexOf('socketD') >= 0) {
+        } else if (classes.includes("socketD")) {
           sockets += "G";
-        } else if (classes.indexOf('socketS') >= 0) {
+        } else if (classes.includes("socketS")) {
           sockets += "R";
         }
       }
-
     });
     return sockets;
-  };
+  }
 
   returnLevelRequirement() {
     return this.htmlDiv.querySelector(".first-line li")!.textContent!.replace("Level:", "").trim();
-  };
+  }
 
   returnItemLevel() {
     return this.htmlDiv.querySelector("span[data-name='ilvl']")!.textContent!.replace("ilvl:", "").trim();
-  };
+  }
 
-  returnRarity () {
-    let rarityIndex = this.htmlDiv.querySelector(".title")!.getAttribute("class")!.match(/[0-9]/);
+  returnRarity() {
+    const rarityIndex = this.htmlDiv.querySelector(".title")!.getAttribute("class")!.match(/[0-9]/);
     return this.itemRarities[Number(rarityIndex)];
-  };
+  }
 
-  returnImplicit () {
-    let enchanted = this.returnEnchantedMods();
+  returnImplicit() {
+    const enchanted = this.returnEnchantedMods();
 
     if (enchanted !== "") {
       return enchanted.trim();
-    } else {
-      return this.returnImplicitMods();
     }
-  };
+    return this.returnImplicitMods();
+  }
 
-  returnImplicitMods () {
+  returnImplicitMods() {
     let itemMods = "";
-    this.each(".withline li", that => {
-      itemMods += that.innerText + '\r\n';
+    this.each(".withline li", (that) => {
+      itemMods += `${that.innerText}\r\n`;
     });
     return itemMods.trim();
-  };
+  }
 
-  returnEnchantedMods () {
+  returnEnchantedMods() {
     let itemMods = "";
-    this.each("ul .mods:not(.withline) li", that => {
-      if (that.innerText.indexOf('enchanted') !== -1) {
-        itemMods += '{crafted}' + that.innerText.replace("enchanted", "").trim() + '\r\n';
+    this.each("ul .mods:not(.withline) li", (that) => {
+      if (that.innerText.includes("enchanted")) {
+        itemMods += `{crafted}${that.innerText.replace("enchanted", "").trim()}\r\n`;
       }
     });
     return itemMods;
-  };
+  }
 
-  returnCraftedMods () {
+  returnCraftedMods() {
     let craftedItems = "";
-    this.each("ul .mods:not(.withline) li", that => {
-      if (that.innerText.indexOf('crafted') !== -1) {
-        craftedItems += '{crafted}' + that.innerText.replace("crafted", "").trim() + '\r\n';
+    this.each("ul .mods:not(.withline) li", (that) => {
+      if (that.innerText.includes("crafted")) {
+        craftedItems += `{crafted}${that.innerText.replace("crafted", "").trim()}\r\n`;
       }
     });
     return craftedItems;
-  };
+  }
 
 
-  returnItemMods () {
+  returnItemMods() {
     let itemMods = "";
-    this.each("ul .mods:not(.withline) li", that => {
-      if (that.innerText.indexOf('enchanted') === -1 &&
-          that.innerText.indexOf('crafted') === -1 &&
-          that.innerText.indexOf('pseudo') === -1) {
-        let l = '';
+    this.each("ul .mods:not(.withline) li", (that) => {
+      if (!that.innerText.includes("enchanted") &&
+          !that.innerText.includes("crafted") &&
+          !that.innerText.includes("pseudo")) {
+        let l = "";
         that.childNodes.forEach((e: ChildNode) => {
-          if ((e  as HTMLElement).tagName !== 'SPAN') {l += e.textContent}
+          if ((e as HTMLElement).tagName !== "SPAN") {
+            l += e.textContent;
+          }
         });
-        itemMods += l.trim() + '\r\n';
+        itemMods += `${l.trim()}\r\n`;
       }
     });
     return itemMods;
-  };
+  }
 
   buildItem() {
-
-    let itemMods = this.returnItemMods();
-    let implicit = this.returnImplicit();
+    const itemMods = this.returnItemMods();
+    const implicit = this.returnImplicit();
 
     this.returnItemNameAndType();
 
     let item = "";
 
-    let rarity = this.returnRarity();
-    if (rarity !== "")
-      item += "Rarity: " + rarity + '\r\n';
+    const rarity = this.returnRarity();
+    if (rarity !== "") {
+      item += `Rarity: ${rarity}\r\n`;
+    }
 
-    item += this.itemName + '\r\n';
-    item += this.itemType + '\r\n';
-    item += 'Item Level: ' + this.returnItemLevel() + '\r\n';
+    item += `${this.itemName}\r\n`;
+    item += `${this.itemType}\r\n`;
+    item += `Item Level: ${this.returnItemLevel()}\r\n`;
 
-    let quality = this.returnItemQuality();
-    if (quality !== "")
-      item += "Quality: " + quality + '\r\n';
+    const quality = this.returnItemQuality();
+    if (quality !== "") {
+      item += `Quality: ${quality}\r\n`;
+    }
 
-    let sockets = this.returnItemSockets();
-    if (sockets !== "")
-      item += "Sockets: " + sockets + '\r\n';
+    const sockets = this.returnItemSockets();
+    if (sockets !== "") {
+      item += `Sockets: ${sockets}\r\n`;
+    }
 
-    item += 'Implicits: ' + this.returnImplicitCount() + '\r\n';
+    item += `Implicits: ${this.returnImplicitCount()}\r\n`;
 
-    if (implicit !== "")
-      item += implicit + '\r\n';
+    if (implicit !== "") {
+      item += `${implicit}\r\n`;
+    }
 
     item += itemMods;
 
-    let crafted = this.returnCraftedMods();
+    const crafted = this.returnCraftedMods();
     if (crafted !== "") {
       item += crafted;
     }

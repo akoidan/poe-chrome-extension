@@ -1,4 +1,4 @@
-import {Logger, LoggerFactory, LogStrict} from "lines-logger";
+import {LogStrict, Logger, LoggerFactory} from "lines-logger";
 import {Api} from "@/utils/api";
 import {Xhr} from "@/utils/xhr";
 

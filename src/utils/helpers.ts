@@ -12,23 +12,21 @@ const getUniqueId = ((): () => number => {
 
 
 function escapeHtml(html: string) {
-  let escapeMap: { [id: string]: string } = {
-    '#': '{#}',
-    '+': '{+}',
-    '{': '{{}',
-    '}': '{}}'
+  const escapeMap: { [id: string]: string } = {
+    "#": "{#}",
+    "+": "{+}",
+    "{": "{{}",
+    "}": "{}}",
   };
-  let replaceHtmlRegex = new RegExp("[" + Object.keys(escapeMap).join("") + "]", "g");
-  return html.replace(replaceHtmlRegex, function (s) {
-    return escapeMap[s];
-  });
+  const replaceHtmlRegex = new RegExp(`[${Object.keys(escapeMap).join("")}]`, "g");
+  return html.replace(replaceHtmlRegex, (s) => escapeMap[s]);
 }
 
 function saveToFile(data: string) {
-  let escaped = escapeHtml(data);
+  const escaped = escapeHtml(data);
   FileSaver.saveAs(new Blob([escaped], {
-    type: "text/plain;charset=utf-8"
-  }), 'buyItemsList.txt');
+    type: "text/plain;charset=utf-8",
+  }), "buyItemsList.txt");
   return true;
 }
 
@@ -42,57 +40,56 @@ export function showBlockInfo(block: string) {
 }
 
 export function getCurrentPage(): CurrentPage {
-  let href = window.location.href;
-  const siteMap : {url: string, component: CurrentPage}[] = [
+  const {href} = window.location;
+  const siteMap: {url: string; component: CurrentPage}[] = [
     {
-      url: 'pathofexile.com/trade/search',
-      component: 'pathofexile'
+      url: "pathofexile.com/trade/search",
+      component: "pathofexile",
     },
     {
-      url: 'pathofexile.com/trade/exchange',
-      component: 'pathofexile-bulk'
+      url: "pathofexile.com/trade/exchange",
+      component: "pathofexile-bulk",
     },
     {
-      url: 'currency.poe.trade',
-      component: 'currency-poe-trade'
+      url: "currency.poe.trade",
+      component: "currency-poe-trade",
     },
     {
-      url: 'poe.trade',
-      component: 'poe-trade'
-    }
+      url: "poe.trade",
+      component: "poe-trade",
+    },
   ];
-  let find = siteMap.find(a => window.location.href.indexOf(a.url) >= 0);
+  const find = siteMap.find((a) => window.location.href.includes(a.url));
   let res: CurrentPage|null;
   if (!find) {
-    res = prompt(`Is this ${siteMap.map(a=> a.component).join('/')}?`, siteMap[0]!.component as string) as CurrentPage;
-    if (!siteMap.find(e => e.component === res)) {
+    res = prompt(`Is this ${siteMap.map((a) => a.component).join("/")}?`, siteMap[0]!.component as string) as CurrentPage;
+    if (!siteMap.find((e) => e.component === res)) {
       throw Error("Cannot detecte site");
     }
   } else {
     res = find.component;
   }
   return res!;
-
 }
 
 class Blocker {
-
   lsPerma: string;
+
   lsToday: string;
 
   constructor(blockName: string) {
     this.lsPerma = blockName;
-    this.lsToday = blockName + 't';
+    this.lsToday = `${blockName}t`;
   }
 
   getLocalStorage(key: string): string[] {
-    let value = localStorage.getItem(key);
+    const value = localStorage.getItem(key);
     return value ? JSON.parse(value) : [];
   }
 
   setLocalStorage(key: string, value: string[]) {
     localStorage.setItem(key, JSON.stringify(value));
-  };
+  }
 
   getTodayBlockInfo() {
     return localStorage.getItem(this.lsToday);
@@ -104,28 +101,28 @@ class Blocker {
   }
 
   blockPerson(name: string) {
-    let list = this.getLocalStorage(this.lsPerma);
+    const list = this.getLocalStorage(this.lsPerma);
     list.push(name);
     this.setLocalStorage(this.lsPerma, list);
-  };
+  }
 
   blockToday(name: string) {
-    let list = this.getLocalStorage(this.lsToday);
+    const list = this.getLocalStorage(this.lsToday);
     list.push(name);
     this.setLocalStorage(this.lsToday, list);
-  };
+  }
 
   getPermaBlock() {
     return this.getLocalStorage(this.lsPerma);
-  };
+  }
 
   getTodayBlock() {
     return this.getLocalStorage(this.lsToday);
-  };
+  }
 
   isAvailable(name: string) {
-    return this.getPermaBlock().indexOf(name) < 0 && this.getTodayBlock().indexOf(name) < 0;
-  };
+    return !this.getPermaBlock().includes(name) && !this.getTodayBlock().includes(name);
+  }
 }
 
 
