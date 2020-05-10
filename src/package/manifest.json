@@ -11,7 +11,7 @@
   "content_scripts": [ {
     "all_frames": false,
     "js": [ "js/vendors-main.js", "js/main.js"],
-    "css": ["css/vendors-main.css","css/main.css"],
+    "css": ["css/main.css"],
     "matches": [ "https://poe.trade/*", "https://currency.poe.trade/search*", "https://www.pathofexile.com/trade/*" ],
     "run_at": "document_end"
   } ],

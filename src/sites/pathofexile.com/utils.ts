@@ -44,7 +44,7 @@ function searchByText(element: HTMLElement, query: string, searchText: string, t
   return null;
 }
 
-const pathOfexileCurrencyRegex = /@(?<username>\S+) Hi, I'd like to buy your (?<buyvalue>\d+) (?<buycurrency>.*) for my (?<sellvalue>\d+) (?<sellcurrency>.+) in (?<league>\S+)\./;
+const pathOfexileCurrencyRegex = /@(?<username>\S+) Hi, I'd like to buy your (?<sellvalue>\d+) (?<sellcurrency>.*) for my (?<buyvalue>\d+) (?<buycurrency>.+) in (?<league>\S+)\./;
 export async function getCurrencyData(amount:number|0, priceLimit: number|0): Promise<string> {
   let fileContent: string = "";
 
@@ -80,7 +80,11 @@ export async function getCurrencyData(amount:number|0, priceLimit: number|0): Pr
     let result: RegExpExecArray|null = pathOfexileCurrencyRegex.exec(whisper);
     if (!result) {
       globalLogger.warn(`Cant detect {} by {}`, whisper, pathOfexileCurrencyRegex)();
-      fileContent += `${result} I need ${amount} worth`;
+      if (amount) {
+        fileContent += `${whisper} I need ${amount} worth.\n`;
+      } else {
+        fileContent += `${whisper}\n`;
+      }
     } else {
       fileContent += calcOffer(priceLimit, amount, {
         league: result.groups!.league,

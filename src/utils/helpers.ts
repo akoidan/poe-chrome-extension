@@ -44,9 +44,9 @@ export function calcOffer(limit: number, amount: number, offer: OfferDetails) {
   const price = offer.buyvalue / offer.sellvalue;
   if (limit) {
     if (price > 1 && price > limit) {
-      return;
+      return "";
     } else if (price < 1 && 1 / price < limit) {
-      return;
+      return "";
     }
   }
 
