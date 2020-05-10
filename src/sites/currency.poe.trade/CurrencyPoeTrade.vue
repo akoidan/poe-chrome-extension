@@ -13,25 +13,18 @@
     </button>
   </div>
 </template>
-<script>
+<script lang="ts">
+import {saveCurrencyData} from "@/sites/currency.poe.trade/utils";
+import {Component, Prop, Vue, Watch, Ref, Emit} from "vue-property-decorator";
 
-import {saveCurrencyData} from "@/sites/currency-poe-trade/utils";
-import PoeTradeCheckbox from "@/components/PoeTradeCheckbox.vue";
-
-export default {
-  name: "AppCurrency",
-  data() {
-    return {
-      amount: 0,
-      price: 0,
-    };
-  },
-  methods: {
-    create() {
-      saveCurrencyData(this.amount, this.price);
-    },
-  },
-};
+@Component
+export default class AppCurrency extends Vue {
+  amount: number = 0;
+  price: number = 0;
+  create() {
+    saveCurrencyData(this.amount, this.price);
+  }
+}
 </script>
 <style lang="sass" scoped>
   .inline

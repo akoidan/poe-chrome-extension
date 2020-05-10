@@ -17,7 +17,7 @@ interface OfferDetails {
   league: string;
 }
 
-type CurrentPage = "poe-trade" | "currency-poe-trade" | "pathofexile" | null;
+type CurrentPage = "poe.trade" | "currency.poe.trade" | "pathofexile.com";
 
 interface Consts {
   IS_DEBUG: boolean;
@@ -38,10 +38,15 @@ interface RequestOptions<T> {
   parseResponseAsJson?: boolean;
 }
 
+interface GetProdHtmlNodeResult {
+  el: HTMLElement;
+  App: new()=> Vue;
+}
 export {
   AlertModel,
   AlertType,
   Consts,
+  GetProdHtmlNodeResult,
   OfferDetails,
   CurrentPage,
   RequestOptions,

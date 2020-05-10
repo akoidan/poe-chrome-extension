@@ -46,7 +46,7 @@
   </div>
 </template>
 <script lang="ts">
-import {getBlockName, init, saveCurrentData} from "@/sites/poe-trade/utils";
+import {getBlockName, init, saveCurrentData} from "@/sites/poe.trade/utils";
 import PoeTradeCheckbox from "@/components/PoeTradeCheckbox.vue";
 
 
@@ -67,6 +67,10 @@ export default class App extends Vue {
   private complexPrice = false;
 
   private price = "My offer is 1 chaos";
+
+  created() {
+    init();
+  }
 
 
   reinit() {

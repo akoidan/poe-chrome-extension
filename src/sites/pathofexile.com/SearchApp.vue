@@ -54,7 +54,7 @@
   </div>
 </template>
 <script lang="ts">
-import {saveCurrentData} from "@/sites/pathofexile/utils";
+import {saveCurrentData} from "@/sites/pathofexile.com/utils";
 
 
 import {Component, Emit, Prop, Vue} from "vue-property-decorator";

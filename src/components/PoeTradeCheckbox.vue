@@ -21,7 +21,7 @@
 </template>
 <script>
 
-import {saveCurrentData} from "@/sites/poe-trade/utils";
+import {saveCurrentData} from "@/sites/poe.trade/utils";
 
 export default {
   name: "PoeTradeCheckbox",

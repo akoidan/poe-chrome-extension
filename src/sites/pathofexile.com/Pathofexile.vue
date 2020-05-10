@@ -13,19 +13,15 @@
 <script lang="ts">
 import {Component, Prop, Vue, Watch, Ref} from "vue-property-decorator";
 import App from "@/components/App.vue";
-import RouterWatcher from "@/sites/pathofexile/RouterWatcher.vue";
-import SearchApp from "@/sites/pathofexile/SearchApp.vue";
-import BulkExchangeApp from "@/sites/pathofexile/BulkExchangeApp.vue";
+import RouterWatcher from "@/sites/pathofexile.com/RouterWatcher.vue";
+import SearchApp from "@/sites/pathofexile.com/SearchApp.vue";
+import BulkExchangeApp from "@/sites/pathofexile.com/BulkExchangeApp.vue";
 @Component({
   components: {BulkExchangeApp, SearchApp, RouterWatcher, App}
 })
 export default class Pathofexile extends Vue {
-
   currentRoute: string = '';
-
 }
-
-
 </script>
 <!-- eslint-disable -->
 <style lang="sass" scoped>

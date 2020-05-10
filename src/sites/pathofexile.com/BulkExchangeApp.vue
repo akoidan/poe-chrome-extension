@@ -17,7 +17,7 @@
   </div>
 </template>
 <script lang="ts">
-import {saveCurrenCurrencyData} from "@/sites/pathofexile/utils";
+import {saveCurrenCurrencyData} from "@/sites/pathofexile.com/utils";
 import {Component, Prop, Vue, Watch, Ref, Emit} from "vue-property-decorator";
 
 @Component

@@ -1,5 +1,6 @@
-import {calcOffer, saveToFile} from "@/utils/helpers";
-import {OfferDetails} from "@/types/model";
+import {calcOffer, saveToFile, sleep, waitForNode} from "@/utils/helpers";
+import {GetProdHtmlNodeResult, OfferDetails} from "@/types/model";
+import CurrencyPoeTrade from "@/sites/currency.poe.trade/CurrencyPoeTrade.vue";
 
 function getCurrencyText() {
   const regex = /CURRENCY_TEXTS = (\[.*\])/g;
@@ -25,7 +26,6 @@ function createOffer(o: HTMLElement): OfferDetails {
     buycurrency: CURRENCY_TEXTS[parseInt(o.getAttribute("data-buycurrency")!)!],
     sellvalue: parseFloat(o.getAttribute("data-sellvalue")!)!,
     buyvalue: parseFloat(o.getAttribute("data-buyvalue")!),
-    ign: o.getAttribute("data-ign")!,
     stock: parseInt(o.getAttribute("data-stock")!),
     league: findGetParameter("league")!,
   };
@@ -56,3 +56,6 @@ function findGetParameter(parameterName: string) {
   return result;
 }
 
+export async function getProdHtmlNode(): Promise<GetProdHtmlNodeResult> {
+  return {el: await waitForNode('#contentstart') as HTMLElement, App: CurrencyPoeTrade};
+}

@@ -2,9 +2,17 @@
 
 # poe-chrome-extension
 
-This project is generated via [akoidan/vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript). It improves functionality of poe.trade and pathofexile.com/trade site by adding ability to whisper message w/o copying them manually. In order to use it just install [this chrome extension](https://chrome.google.com/webstore/detail/poe-trade-ahk/hiknemifbkgijpadbibhbbibenelkjoj)
+This project is generated via [akoidan/vue-webpack-typescript](https://github.com/akoidan/vue-webpack-typescript). It improves functionality of poe.trade and pathofexile.com/trade site by adding ability to whisper message w/o copying them manually. To use:
+ - Install [autohotkey](https://www.autohotkey.com/download/ahk-install.exe)
+ - Download [poe.ahk](https://raw.githubusercontent.com/akoidan/POE/master/poe.ahk). If link is broken just find poe.ahk in [my repo](https://github.com/akoidan/poe)
+ - Open poe.ahk via right click or by using autohotkey
+ - Install [this chrome extension](https://chrome.google.com/webstore/detail/poe-trade-ahk/hiknemifbkgijpadbibhbbibenelkjoj)
+ - Open [pathofexile.com/trade](pathofexile.com/trade/search/Delirium/)
+ - You should be able to see the image bellow, click on create ![example](./currency-search.png)
+ - Step above has just created `buyItemsList.txt` file in your Downloads directory. Switch to your game and Press `F7`. To stop shouting press `O` (your chat should be closed). Autohotkey script will run on lines in the downloaded file and shout everything in it.
 
-## Get started
+
+## Contributing
 
 ### Install dependencies:
  - [OPTIONAL] `nvm use 13.6.1` # if compilation doesn't work out of the box, the issue might be with node
@@ -15,10 +23,16 @@ This project is generated via [akoidan/vue-webpack-typescript](https://github.co
 This runs the development server w/o a linter on.
 
 ```bash
-yarn start
+yarn start:pathofexile.com
 ```
 
-##№ Tests
+### If you want to check it as an extension:
+ - Install [chrome-extension-reloader](https://chrome.google.com/webstore/detail/extensions-reloader/fimgfedafeadlieiabdeeaodndnlbhid?hl=en)
+ - `yarn run start:prod`
+ - `chrome://extensions` -> `Load unpacked` (you need developer mode to be on, in order to see it). Select `./dist` folder that contains `manifest.json`
+ - open [pathofexile.com](https://www.pathofexile.com/trade/search/)
+
+##№ Tests TODO
 
 There're multiple things you can do with test:
  - Build into static files and run headless cypress against it

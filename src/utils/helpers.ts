@@ -39,34 +39,6 @@ export function showBlockInfo(block: string) {
   return new Blocker(block).getTodayBlockInfo();
 }
 
-export function getCurrentPage(): CurrentPage {
-  const {href} = window.location;
-  const siteMap: {url: string; component: CurrentPage}[] = [
-    {
-      url: "pathofexile.com/trade/search",
-      component: "pathofexile",
-    },
-    {
-      url: "currency.poe.trade",
-      component: "currency-poe-trade",
-    },
-    {
-      url: "poe.trade",
-      component: "poe-trade",
-    },
-  ];
-  const find = siteMap.find((a) => window.location.href.includes(a.url));
-  let res: CurrentPage|null;
-  if (!find) {
-    res = prompt(`Is this ${siteMap.map((a) => a.component).join("/")}?`, siteMap[0]!.component as string) as CurrentPage;
-    if (!siteMap.find((e) => e.component === res)) {
-      throw Error("Cannot detecte site");
-    }
-  } else {
-    res = find.component;
-  }
-  return res!;
-}
 
 export function calcOffer(limit: number, amount: number, offer: OfferDetails) {
   const price = offer.buyvalue / offer.sellvalue;
@@ -107,6 +79,19 @@ export function calcOffer(limit: number, amount: number, offer: OfferDetails) {
   }
   return `@${offer.username} Hi, I'd like to buy your ${Math.floor(buying)} ${offer.sellcurrency} for my ${Math.floor(selling)} ${offer.buycurrency} in ${offer.league}.${end}\n`;
 }
+
+export async function waitForNode(selector:string) {
+  for (let i = 0; i < 50; i++) {
+    const holder = document.querySelector(selector);
+    if (holder) {
+      return holder;
+    }
+    await sleep(200);
+  }
+  throw Error(`Unable to load poe-trade extension plugin cause
+      document.querySelector('${selector}') didnt find any wrappers`);
+}
+
 
 class Blocker {
   lsPerma: string;

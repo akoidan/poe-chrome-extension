@@ -1,6 +1,8 @@
-import {calcOffer, saveToFile, sleep} from "@/utils/helpers";
+import {calcOffer, saveToFile, sleep, waitForNode} from "@/utils/helpers";
 import {globalLogger} from "@/utils/singletons";
 import {ApiConsts} from "@/utils/consts";
+import {GetProdHtmlNodeResult} from "@/types/model";
+import Pathofexile from "@/sites/pathofexile.com/Pathofexile.vue";
 
 
 export async function getData(offer: string): Promise<string> {
@@ -148,4 +150,11 @@ export async function saveCurrentData(price: string) {
   await loadUntilEnough();
   const test = await getData(price);
   saveToFile(test);
+}
+
+export async function getProdHtmlNode(): Promise<GetProdHtmlNodeResult> {
+  let trade = await waitForNode('#trade');
+  const result: HTMLElement = document.createElement("div");
+  trade.parentElement!.insertBefore(result, trade);
+  return {el: result, App: Pathofexile};
 }

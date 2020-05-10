@@ -86,7 +86,8 @@ export default class Index {
   }
 
   returnItemLevel() {
-    return this.htmlDiv.querySelector("span[data-name='ilvl']")!.textContent!.replace("ilvl:", "").trim();
+    let span = this.htmlDiv.querySelector("span[data-name='ilvl']"); // diivnation cards dont have ilvl
+    return span ? span.textContent!.replace("ilvl:", "").trim() : '0';
   }
 
   returnRarity() {

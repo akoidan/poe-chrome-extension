@@ -1,10 +1,11 @@
-import FileSaver from "file-saver";
 import PoeItem from "@/utils/poe-item";
 
 import notable from "@/utils/cluster-jewels/notable.json";
 import minor from "@/utils/cluster-jewels/minor.json";
 import keystones from "@/utils/cluster-jewels/keystones.json";
-import {Blocker, saveToFile} from "@/utils/helpers";
+import {Blocker, saveToFile, sleep, waitForNode} from "@/utils/helpers";
+import {GetProdHtmlNodeResult} from "@/types/model";
+import PoeTrade from "@/sites/poe.trade/PoeTrade.vue";
 
 const clusterJewels: { [id: string]: string } = {...notable,
   ...minor,
@@ -197,4 +198,11 @@ function parsePage(blockName: string, getOffer: Function) {
     }
   }
   return outStr;
+}
+
+export async function getProdHtmlNode(): Promise<GetProdHtmlNodeResult> {
+  return {
+    el: await waitForNode('#contentstart') as HTMLElement,
+    App: PoeTrade
+  };
 }

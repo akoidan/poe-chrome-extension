@@ -1,7 +1,7 @@
 const merge = require('webpack-merge');
 const config = require('./webpack.config.base');
 const path = require('path')
-const {sassLoader, fileLoader, getDefinitions, getConfig} = require('./utils');
+const {sassLoader, fileLoader, getDefinitions,getEntry, getConfig} = require('./utils');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const ZipPlugin = require('zip-webpack-plugin');
@@ -14,6 +14,7 @@ module.exports = merge(config, {
     crossOriginLoading: getConfig('APP_FILE_MODE') ? false: 'anonymous',
     publicPath: getConfig('APP_PUBLIC_PATH')
   },
+  entry: getEntry(`../src/prod.ts`),
   watch: !!getConfig('APP_WATCH'),
   module: {
     rules: [
