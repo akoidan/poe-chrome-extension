@@ -424,9 +424,6 @@ Typescript is compiled via babel, this means that it doesn't have typechecks, th
 - ignore typescript error: `// @ts-ignore: next-line` [guide](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html#suppress-errors-in-ts-files-using--ts-ignore-comments)
 - ignore stylelint error: `// stylelint-disable-line` [guide](https://github.com/stylelint/stylelint/blob/master/docs/user-guide/get-started.md)
 
-#### Where I find icons?
-Repo uses material desing icons (mdi). Check [materialdesignicons.com](https://materialdesignicons.com/). And `node_modules/@mdi/font/scss/_variables.scss` directory, this vars are prefixed with `mdi-`, like `mdi-home`.
-
 #### What's the import order in typescript:
  1. Multiple imports go before singular
  1. Uppercase letter go before lowercase
@@ -447,6 +444,10 @@ import {defaultModule} from "@/store/default"; // this is a single import with a
 
 #### Be aware
  - cypress test is run on different browser when you run it locally, the source of truth is drone/ci here. Thing like screenshot could also be different. So this things should be aligned in the future if any issues occur.
+
+#### Generate content.html
+ In order to generate content.html file, open the appropriate page, and click on "view page source" and save it to file.
+ - cacheexpiration modify in localstorage src/sites/pathofexile/localstorage.json
 
 ## TODO
  - ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/akoidan/poe-chrome-extension)

@@ -15,11 +15,9 @@ export class Api {
     this.xhr = xhr;
   }
 
-  // public async getBranches(): Promise<Branch[]> {
-  //   return this.xhr.doRequest({
-  //     method: "GET",
-  //     url: "/branches",
-  //   });
-  // }
+  public async getSource(url: string): Promise<string> {
+    let response = await fetch(url);
+    return response.text();
+  }
 
 }

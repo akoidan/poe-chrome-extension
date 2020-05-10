@@ -49,11 +49,14 @@ module.exports.getDefinitions =(function() {
     CONSTS: {
       API_URL: module.exports.getConfig('API_URL', true),
       APP_VERSION: module.exports.getConfig('APP_VERSION', true) || getCvsVersion(),
-      IS_DEBUG,
-      APP_TARGET: module.exports.getConfig('APP_TARGET', true)
+      IS_DEBUG
     },
   });
 })();
+
+module.exports.getEntry = function (main) {
+  return [...(module.exports.getConfig('APP_TEST') ? ['whatwg-fetch', '../src/assets/sass/test.sass'] : []), 'reflect-metadata', main];
+}
 
 module.exports.getConfig = (function () {
   const variables = {...require(`./options.json`)};
@@ -81,7 +84,7 @@ module.exports.fileLoader = function(publicPath) {
   const path = require('path');
 
   return {
-    test: /\.(svg|jpg|gif|png|woff2|woff|eot|ico|ttf)$/, // woff, eot, ttf- materialdesign
+    test: /(\.(svg|jpg|gif|png|woff2|woff|eot|ico|ttf))|(\/src\/sites\/(\w|-)+\/(\w|-)+\/.*\.\w+)$/,
     loader: 'file-loader',
     options: {
       esModule: false, // vue doesn't support esmodule in things like images yet
@@ -93,9 +96,11 @@ module.exports.fileLoader = function(publicPath) {
           return `${dirNameInsideAssets}/[name].[ext]?[sha512:hash:base64:6]`;
         } else if (/\.(woff2|woff|eot|ttf)$/.test(f)) {
           return `fonts/node_modules/[name].[ext]?[sha512:hash:base64:6]`;
+        } else if (f.indexOf('src/sites') >= 0) {
+          return `off-site/[name].[ext]`;
         } else {
           // throw error as we don't support images yet, what if there are 2 images with the same name
-          throw Error('Unexpected image inside of node_modules')
+          throw Error(`Unexpected image inside of node_modules`)
         }
       }
     }

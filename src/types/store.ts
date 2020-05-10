@@ -1,12 +1,17 @@
-import {AlertModel} from "@/types/model";
+import {AlertModel, CurrentPage} from "@/types/model";
 
 
 interface IAlertsState {
   alerts: AlertModel[];
 }
 
-interface IRootState {
-  alerts: IAlertsState;
+interface IPageState {
+  currentPage: CurrentPage;
 }
 
-export {IAlertsState, IRootState};
+interface IRootState {
+  alerts: IAlertsState;
+  page: IPageState;
+}
+
+export {IAlertsState, IRootState, IPageState};

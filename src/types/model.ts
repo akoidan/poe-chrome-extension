@@ -6,6 +6,8 @@ interface AlertModel {
   type: AlertType;
 }
 
+type CurrentPage = "poe-trade" | "currency-poe-trade" | "pathofexile" | "pathofexile-bulk" | null;
+
 interface Consts {
   IS_DEBUG: boolean;
   APP_VERSION?: string;
@@ -15,7 +17,7 @@ interface Consts {
   LOAD_MORE_WHISPERS: number;
   DISPLAY_ALERTS_MS: number;
   MAX_ERROR_NUMBER: number;
-  APP_TARGET: "pathofexile.com" | "poe.trade" | null;
+  APP_TARGET: CurrentPage;
 }
 interface RequestOptions<T> {
   url: string;
@@ -29,5 +31,6 @@ export {
   AlertModel,
   AlertType,
   Consts,
+  CurrentPage,
   RequestOptions,
 };

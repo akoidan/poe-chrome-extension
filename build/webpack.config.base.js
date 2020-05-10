@@ -1,7 +1,6 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 const {execSync} = require('child_process');
 const {getConfig} = require('./utils');
 const webpack = require('webpack');
@@ -10,9 +9,7 @@ const webpack = require('webpack');
 module.exports = {
   context: __dirname,
   // cypress doesn't support fetch api, replace it with whatwg-fetch polyfill
-  entry: [...(getConfig('APP_TEST') ? ['whatwg-fetch', '../src/assets/sass/test.sass'] : []), 'reflect-metadata', '../src/main.ts'],
   plugins: [
-    new VuetifyLoaderPlugin(),
     new VueLoaderPlugin(),
     new ForkTsCheckerWebpackPlugin({
       vue: true,
@@ -51,14 +48,6 @@ module.exports = {
   // optimization: {minimize: true},
   module: {
     rules: [
-      {
-        test: /\.html$/i,
-        loader: 'raw-loader'
-      },
-      {
-        test: /\.css$/,
-        use: ["vue-style-loader", 'css-loader?sourceMap&-url'],
-      },
       {
         test: /\.ts$/,
         use: [{

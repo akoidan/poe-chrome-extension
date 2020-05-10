@@ -15,7 +15,7 @@ class LoggerMixin extends Vue {
     if (this.privateLogger !== null) {
       const tag: string|undefined = this.$vnode?.tag;
       // Provide logger only to vew component, exclude those one we don't need
-      if (tag && !(/^vue-component-\d+-(transition|v-.*|-LoggerMixin)$/u).test(tag)) { // eslint-disable-line prefer-named-capture-group
+      if (tag && !(/^vue-component-\d+-(transition|-LoggerMixin)$/u).test(tag)) { // eslint-disable-line prefer-named-capture-group
         this.privateLogger = loggerFactory.getLoggerColor(tag, "#35495e");
       } else {
         this.privateLogger = null;
