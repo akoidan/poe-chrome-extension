@@ -42,47 +42,47 @@
   </div>
 </template>
 <script lang="ts">
-  import {saveCurrentData} from '@/sites/pathofexile/utils'
+import {saveCurrentData} from '@/sites/pathofexile/utils'
 
 
-  import {Component, Emit, Prop, Vue} from "vue-property-decorator";
-  import {AlertModel} from "@/types/model";
-  import {clearBlock, showBlockInfo} from "@/utils/helpers";
+import {Component, Emit, Prop, Vue} from "vue-property-decorator";
+import {AlertModel} from "@/types/model";
+import {clearBlock, showBlockInfo} from "@/utils/helpers";
 
-  @Component
-  export default class SearchApp extends Vue {
+@Component
+export default class SearchApp extends Vue {
 
-    @Prop({default: false})
-    public readonly dismissible!: boolean;
+  @Prop({default: false})
+  public readonly dismissible!: boolean;
 
-    private status = '';
-    private block = false;
+  private status = '';
+  private block = false;
 
-    @Prop({default: ''})
-    private readonly blockName!: string;
-    private complexPrice = false;
-    private offer = 'My offer is 1 chaos';
+  @Prop({default: ''})
+  private readonly blockName!: string;
+  private complexPrice = false;
+  private offer = 'My offer is 1 chaos';
 
-    @Prop()
-    public readonly alert!: AlertModel;
+  @Prop()
+  public readonly alert!: AlertModel;
 
-    @Emit()
-    private close(): AlertModel {
-      return this.alert;
-    }
-
-    async save () {
-      this.$logger.log("triggering saving to file")();
-      await saveCurrentData(this.offer)
-    }
-
-    clear() {
-      clearBlock(this.blockName);
-    }
-    showBlockInfo () {
-      alert(showBlockInfo(this.blockName));
-    }
+  @Emit()
+  private close(): AlertModel {
+    return this.alert;
   }
+
+  async save () {
+    this.$logger.log("triggering saving to file")();
+    await saveCurrentData(this.offer)
+  }
+
+  clear() {
+    clearBlock(this.blockName);
+  }
+  showBlockInfo () {
+    alert(showBlockInfo(this.blockName));
+  }
+}
 
 </script>
 <style lang="sass" scoped>
