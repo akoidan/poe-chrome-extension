@@ -1,11 +1,13 @@
 import {sleep} from "@/utils/helpers";
 import {pageModule} from "@/store/modules/page";
+import {init} from "@/main";
+import CurrencyPoeTrade from "@/sites/poe-trade/CurrencyPoeTrade.vue";
 
 async function getProdHtmlNode() {
   for (let i = 0; i < 50; i++) {
     const holder = document.getElementById("contentstart");
     if (holder) {
-      pageModule.setCurrentPage("currency-poe-trade");
+      pageModule.setCurrentPage("poe-trade");
       return holder;
     }
     await sleep(100);
@@ -14,12 +16,7 @@ async function getProdHtmlNode() {
         document.querySelector('#contentstart') didnt find any wrappers`);
 }
 
-
-async function getDevHtmlNode() {
-  const content = await import(/* WebpackChunkName: "currency.poe.trade.html" */"@/sites/currency-poe-trade/currency-poe-trade.html");
-  document.getElementById("app")!.innerHTML = content.default;
-  return getProdHtmlNode();
-}
-
-
-export {getDevHtmlNode, getProdHtmlNode};
+(async function() {
+  const node: HTMLElement = await getProdHtmlNode();
+  await init(node, CurrencyPoeTrade);
+}());

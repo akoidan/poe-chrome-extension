@@ -1,6 +1,6 @@
 <template>
   <!--  class matches the same on pathofexile.com-->
-  <div class="ahk-main no-marg-b controls">
+  <div class="ahk-main no-marg-b">
     <table class="search-bar">
       <tr>
         <td class="kms">
@@ -101,39 +101,19 @@ export default class SearchApp extends Vue {
 
 </script>
 <style lang="sass" scoped>
-  .ahk-main
-    background-color: black
-    font-family: FontinSmallcaps, sans-serif
-    max-width: 1520px
-    margin: auto
-    padding: 10px
 
-    .ahk-main button
-      color: #e2e2e2
-      background-color: #1e2124
-      position: relative
-      padding: 6px
-      line-height: 16px
-      min-height: 34px
-      min-width: 34px
 
-    input[type=text]
-      color: #fff8e1
-    .fsd
-      min-width: 180px
+  .fsd
+    min-width: 180px
 
-    td
-      padding: 0 5px
+  td
+    padding: 0 5px
 
-    tr
-      padding-bottom: 5px
+  tr
+    padding-bottom: 5px
 
-    button
-      width: 100%
 
-    .kms
-      width: 100%
+  .kms
+    width: 100%
 
-    .topB
-      margin-bottom: 0
 </style>

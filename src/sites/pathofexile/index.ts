@@ -1,6 +1,7 @@
 import {sleep} from "@/utils/helpers";
 import {pageModule} from "@/store/modules/page";
 import {init} from "@/main";
+import Pathofexile from "@/sites/pathofexile/Pathofexile.vue";
 import ls from "@/sites/pathofexile/localstorage.json";
 
 async function getProdHtmlNode() {
@@ -25,6 +26,6 @@ async function getProdHtmlNode() {
     localStorage.setItem(k, l);
   }
   const node: HTMLElement = await getProdHtmlNode();
-  await init(node);
+  await init(node, Pathofexile);
 }());
 

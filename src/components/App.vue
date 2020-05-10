@@ -9,30 +9,21 @@
         @close="close(alert)"
       />
     </div>
-    <component :is="currentPage"/>
+    <slot/>
   </div>
 </template>
 <script lang="ts">
 import {AlertsState, alertsModule} from "@/store/modules/alerts";
 import {Component, Vue} from "vue-property-decorator";
-import {AlertModel, CurrentPage} from "@/types/model";
+import {AlertModel} from "@/types/model";
 import AppAlert from "@/components/AppAlert.vue";
-import {PageState} from "@/store/modules/page";
-import CurrencyPoeTrade from "@/sites/currency-poe-trade/CurrencyPoeTrade.vue";
-import PoeTrade from "@/sites/poe-trade/PoeTrade.vue";
-import Pathofexile from "@/sites/pathofexile/Pathofexile.vue";
 
 @Component({
   components: {
-    AppAlert,
-    CurrencyPoeTrade,
-    PoeTrade,
-    Pathofexile,
+    AppAlert
   },
 })
 export default class App extends Vue {
-  @PageState
-  public readonly currentPage!: CurrentPage;
 
   @AlertsState
   public alerts!: AlertModel[];

@@ -6,10 +6,9 @@ import {api, globalLogger, xhr} from "@/utils/singletons";
 import {ApiConsts} from "@/utils/consts"; // eslint-disable-line import/no-namespace
 import Vue from "vue";
 import {store} from "@/store/store";
-import App from "@/components/App.vue";
 
 
-export async function init(el: HTMLElement) {
+export async function init(el: HTMLElement, App: unknown) {
   globalLogger.log("Initing poe ahk extension")();
 
 

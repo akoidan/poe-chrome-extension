@@ -1,6 +1,7 @@
 import {sleep} from "@/utils/helpers";
 import {pageModule} from "@/store/modules/page";
 import {init} from "@/main";
+import PoeTrade from "@/sites/poe-trade/PoeTrade.vue";
 
 async function getProdHtmlNode() {
   for (let i = 0; i < 50; i++) {
@@ -15,13 +16,7 @@ async function getProdHtmlNode() {
         document.querySelector('#contentstart') didnt find any wrappers`);
 }
 
-async function getDevHtmlNode() {
-  const content = await import(/* WebpackChunkName: "poe.trade.html" */"@/sites/poe-trade/poe-trade.html");
-  document.getElementById("app")!.innerHTML = content.default;
-  return getProdHtmlNode();
-}
-
 (async function() {
-  const node: HTMLElement = await getDevHtmlNode();
-  await init(node);
+  const node: HTMLElement = await getProdHtmlNode();
+  await init(node, PoeTrade);
 }());

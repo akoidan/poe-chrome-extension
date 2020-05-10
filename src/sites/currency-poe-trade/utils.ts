@@ -1,4 +1,5 @@
-import {saveToFile} from "@/utils/helpers";
+import {calcOffer, saveToFile} from "@/utils/helpers";
+import {OfferDetails} from "@/types/model";
 
 function getCurrencyText() {
   const regex = /CURRENCY_TEXTS = (\[.*\])/g;
@@ -16,62 +17,27 @@ export function saveCurrencyData(amount: number, limit: number) {
   saveToFile(data);
 }
 
-function createOffer(o: HTMLElement) {
+function createOffer(o: HTMLElement): OfferDetails {
+  const CURRENCY_TEXTS = getCurrencyText();
   return {
-    username: o.getAttribute("data-username"),
-    sellcurrency: parseInt(o.getAttribute("data-sellcurrency")!),
-    buycurrency: parseInt(o.getAttribute("data-buycurrency")!),
-    sellvalue: parseFloat(o.getAttribute("data-sellvalue")!),
+    username: o.getAttribute("data-username")!,
+    sellcurrency: CURRENCY_TEXTS[parseInt(o.getAttribute("data-sellcurrency")!)!],
+    buycurrency: CURRENCY_TEXTS[parseInt(o.getAttribute("data-buycurrency")!)!],
+    sellvalue: parseFloat(o.getAttribute("data-sellvalue")!)!,
     buyvalue: parseFloat(o.getAttribute("data-buyvalue")!),
-    ign: o.getAttribute("data-ign"),
-    stock: o.getAttribute("data-stock"),
+    ign: o.getAttribute("data-ign")!,
+    stock: parseInt(o.getAttribute("data-stock")!),
+    league: findGetParameter("league")!,
   };
 }
+
 
 function parseCurrencyPage(amount: number, limit: number) {
   const els = document.querySelectorAll(".displayoffer");
   let outstr = "";
-  const CURRENCY_TEXTS = getCurrencyText();
   Array.prototype.forEach.call(els, (e) => {
     const offer = createOffer(e);
-    const price = offer.buyvalue / offer.sellvalue;
-    if (limit) {
-      if (price > 1 && price > limit) {
-        return;
-      } else if (price < 1 && 1 / price < limit) {
-        return;
-      }
-    }
-
-    let buying;
-    let selling;
-    let end = "";
-    const currencyName = CURRENCY_TEXTS[offer.sellcurrency];
-    const currencyNameSell = CURRENCY_TEXTS[offer.buycurrency];
-    if (price > 1) {
-      if (amount && offer.sellvalue > amount) {
-        selling = price * amount;
-        buying = amount;
-      } else {
-        buying = offer.sellvalue;
-        selling = offer.buyvalue;
-      }
-      if (amount && offer.sellvalue < amount) {
-        end = ` I need ${amount} ${currencyName}.`;
-      }
-    } else {
-      if (amount && offer.buyvalue > amount) {
-        selling = amount;
-        buying = amount / price;
-      } else {
-        buying = offer.sellvalue;
-        selling = offer.buyvalue;
-      }
-      if (amount && offer.buyvalue < amount) {
-        end = ` I need ${amount} ${currencyNameSell} worth.`;
-      }
-    }
-    outstr += `@${offer.ign} Hi, I'd like to buy your ${Math.floor(buying)} ${currencyName} for my ${Math.floor(selling)} ${currencyNameSell} in ${findGetParameter("league")}.${end}\n`;
+    outstr += calcOffer(limit, amount, offer);
   });
   return outstr;
 }

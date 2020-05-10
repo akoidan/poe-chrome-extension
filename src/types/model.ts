@@ -6,7 +6,18 @@ interface AlertModel {
   type: AlertType;
 }
 
-type CurrentPage = "poe-trade" | "currency-poe-trade" | "pathofexile" | "pathofexile-bulk" | null;
+
+interface OfferDetails {
+  username: string;
+  sellcurrency: string;
+  buycurrency: string;
+  sellvalue: number;
+  buyvalue: number;
+  stock: number;
+  league: string;
+}
+
+type CurrentPage = "poe-trade" | "currency-poe-trade" | "pathofexile" | null;
 
 interface Consts {
   IS_DEBUG: boolean;
@@ -31,6 +42,7 @@ export {
   AlertModel,
   AlertType,
   Consts,
+  OfferDetails,
   CurrentPage,
   RequestOptions,
 };

@@ -1,5 +1,5 @@
 import FileSaver from "file-saver";
-import {CurrentPage} from "@/types/model";
+import {CurrentPage, OfferDetails} from "@/types/model";
 
 async function sleep(ms: number): Promise<void> {
   return new Promise((resolve: () => void) => setTimeout(resolve, ms));
@@ -47,10 +47,6 @@ export function getCurrentPage(): CurrentPage {
       component: "pathofexile",
     },
     {
-      url: "pathofexile.com/trade/exchange",
-      component: "pathofexile-bulk",
-    },
-    {
       url: "currency.poe.trade",
       component: "currency-poe-trade",
     },
@@ -70,6 +66,46 @@ export function getCurrentPage(): CurrentPage {
     res = find.component;
   }
   return res!;
+}
+
+export function calcOffer(limit: number, amount: number, offer: OfferDetails) {
+  const price = offer.buyvalue / offer.sellvalue;
+  if (limit) {
+    if (price > 1 && price > limit) {
+      return;
+    } else if (price < 1 && 1 / price < limit) {
+      return;
+    }
+  }
+
+  let buying;
+  let selling;
+  let end = "";
+
+  if (price > 1) {
+    if (amount && offer.sellvalue > amount) {
+      selling = price * amount;
+      buying = amount;
+    } else {
+      buying = offer.sellvalue;
+      selling = offer.buyvalue;
+    }
+    if (amount && offer.sellvalue < amount) {
+      end = ` I need ${amount} ${offer.sellcurrency}.`;
+    }
+  } else {
+    if (amount && offer.buyvalue > amount) {
+      selling = amount;
+      buying = amount / price;
+    } else {
+      buying = offer.sellvalue;
+      selling = offer.buyvalue;
+    }
+    if (amount && offer.buyvalue < amount) {
+      end = ` I need ${amount} ${offer.buycurrency} worth.`;
+    }
+  }
+  return `@${offer.username} Hi, I'd like to buy your ${Math.floor(buying)} ${offer.sellcurrency} for my ${Math.floor(selling)} ${offer.buycurrency} in ${offer.league}.${end}\n`;
 }
 
 class Blocker {
