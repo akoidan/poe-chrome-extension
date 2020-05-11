@@ -36,11 +36,6 @@ module.exports = merge(config, {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    ...(!getConfig('APP_WATCH') ? [new ZipPlugin({
-      // OPTIONAL: defaults to the Webpack output filename (above) or,
-      // if not present, the basename of the path
-      filename: 'package.zip',
-    })] : []),
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../src/package'),
@@ -52,6 +47,12 @@ module.exports = merge(config, {
     new MiniCssExtractPlugin({
       filename: 'css/[name].css',
       chunkFilename: 'css/[name].css',
-    })
+    }),
+    // ORDER MAKES MATTER< ZIP only after all
+    ...(!getConfig('APP_WATCH') ? [new ZipPlugin({
+      // OPTIONAL: defaults to the Webpack output filename (above) or,
+      // if not present, the basename of the path
+      filename: 'package.zip',
+    })] : []),
   ]
 });
