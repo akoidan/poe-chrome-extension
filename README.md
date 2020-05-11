@@ -462,10 +462,8 @@ import {defaultModule} from "@/store/default"; // this is a single import with a
 #### Generate content.html
  - In order to generate content.html file, open the appropriate page, and click on "view page source" and save it to file.
  - cacheexpiration modify in localstorage src/sites/pathofexile/localstorage.json
- - replace `https://web.poecdn.com/` to `/`
- - replace `https:\/\/web.poecdn.com\/'` -> `/`
+ - replace `https://` to `/`
  - remove analytics js
- - search for other `poecdn` and replace them manually
  - save all files with [Save all recources](https://chrome.google.com/webstore/detail/save-all-resources/abpdnfjocnmdomablahdcfnoggeeiedb/related?hl=en-US)"
 
 ## TODO

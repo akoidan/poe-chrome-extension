@@ -25,7 +25,14 @@ module.exports = merge(config, {
   },
   devServer: {
     disableHostCheck: true, // allow joining under different hostnames to dev server, like ngrok
-    setup: require(`../src/sites/${target}/devserver`)
+    ...(function(){ // load dev-server if it exists
+      try {
+        let result =  {setup: require(`../src/sites/${target}/devserver`)};
+        console.log(`Creating devserver for ${target}`);
+      } catch(e) {
+        return {}
+      }
+    })(),
   },
   plugins: [
     new CopyWebpackPlugin([
