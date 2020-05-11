@@ -96,8 +96,6 @@ module.exports.fileLoader = function(publicPath) {
           return `${dirNameInsideAssets}/[name].[ext]?[sha512:hash:base64:6]`;
         } else if (/\.(woff2|woff|eot|ttf)$/.test(f)) {
           return `fonts/node_modules/[name].[ext]?[sha512:hash:base64:6]`;
-        } else if (f.indexOf('src/sites') >= 0) {
-          return `off-site/[name].[ext]`;
         } else {
           // throw error as we don't support images yet, what if there are 2 images with the same name
           throw Error(`Unexpected image inside of node_modules`)

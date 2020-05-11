@@ -30,8 +30,8 @@ module.exports = merge(config, {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: `../src/sites/${target}/off-files`,
-        to: '',
+        from: `../src/sites/${target}/static`,
+        to: './',
         ignore: ['.*']
       }
     ]),
