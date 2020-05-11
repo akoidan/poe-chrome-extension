@@ -460,11 +460,15 @@ import {defaultModule} from "@/store/default"; // this is a single import with a
  - cypress test is run on different browser when you run it locally, the source of truth is drone/ci here. Thing like screenshot could also be different. So this things should be aligned in the future if any issues occur.
 
 #### Generate content.html
+##### Pathofexile.com
  - In order to generate content.html file, open the appropriate page, and click on "view page source" and save it to file.
  - cacheexpiration modify in localstorage src/sites/pathofexile/localstorage.json
  - replace `https://` to `/`
  - remove analytics js
  - save all files with [Save all recources](https://chrome.google.com/webstore/detail/save-all-resources/abpdnfjocnmdomablahdcfnoggeeiedb/related?hl=en-US)"
+
+##### Poe.trade
+ - I recommend in chrome open the page, m2 -> save as since there're too many external resources
 
 ## TODO
  - ![Libraries.io dependency status for GitHub repo](https://img.shields.io/librariesio/github/akoidan/poe-chrome-extension)
