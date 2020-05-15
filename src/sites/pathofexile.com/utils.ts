@@ -50,7 +50,7 @@ function searchByText(element: HTMLElement, query: string, searchText: string, t
 }
 
 const pathOfexileCurrencyRegex = /@(?<username>\S+) Hi, I'd like to buy your (?<sellvalue>\d+) (?<sellcurrency>.*) for my (?<buyvalue>\d+) (?<buycurrency>.+) in (?<league>\S+)\./;
-export async function getCurrencyData(amount:number|0, priceLimit: number|0): Promise<string> {
+export async function getCurrencyData(amount:number|0, priceLimit: number|0, minStackSize: number): Promise<string> {
   let fileContent: string = "";
 
   function getAllRows(): HTMLElement[] {
@@ -66,6 +66,7 @@ export async function getCurrencyData(amount:number|0, priceLimit: number|0): Pr
 
     let inputRange: HTMLInputElement = row.querySelector('[name=points]') as HTMLInputElement;
     let maxValue = inputRange.value;
+
     for (let i =0; i<50; i++) { //don't get into eternal loop, set max 50 inputs which is amount of range max value at pathofeixle
       (inputRange.value as unknown as number)++;
       let event = new Event("input"); // trigger official SPA(vue) to rerender
@@ -79,6 +80,11 @@ export async function getCurrencyData(amount:number|0, priceLimit: number|0): Pr
     let event = new Event("input"); // trigger official SPA(vue) to rerender
     inputRange.dispatchEvent(event);
     await sleep(1); // wait vue to render box
+
+    let currentStackSize: number = parseInt(row.querySelector('.slider-left .price')!.textContent!);
+    if (currentStackSize < minStackSize) {
+      continue
+    }
 
     let whisper: string = row.querySelector('textarea')!.value;
 
@@ -115,8 +121,8 @@ export async function getCurrencyData(amount:number|0, priceLimit: number|0): Pr
   return fileContent;
 }
 
-export async function saveCurrenCurrencyData(amount: number, priceLimit: number): Promise<void> {
-  let fileContent: string = await getCurrencyData(amount, priceLimit);
+export async function saveCurrenCurrencyData(amount: number, priceLimit: number, minStackSize: number): Promise<void> {
+  let fileContent: string = await getCurrencyData(amount, priceLimit, minStackSize);
   saveToFile(fileContent)
 }
 

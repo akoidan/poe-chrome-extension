@@ -2,11 +2,15 @@
   <div class="inline">
     <div>
       <label>Amount</label>
-      <input placeholder="Amount" v-model.number="amount" type="number" class="form-control"/>
+      <input placeholder="Amount" title="Desired amount of curency you want to buy. This will make the offer bigger up to opponent stack size" v-model.number="amount" type="number" class="form-control"/>
     </div>
     <div>
       <label>Price limit</label>
-      <input placeholder="Price Limit" v-model.number="price" type="number" class="form-control"/>
+      <input placeholder="Price Limit" title="If the price is bigger, the whisper message won't be created" v-model.number="price" type="number" class="form-control"/>
+    </div>
+    <div>
+      <label>Min stack size</label>
+      <input placeholder="Min stack size" title="If amount of currency an opponent has is less, the whisper won't be created" v-model.number="minStackSize" type="number" class="form-control"/>
     </div>
     <div>
       <label>Click bellow to generate file</label>
@@ -24,8 +28,9 @@ import {Component, Prop, Vue, Watch, Ref, Emit} from "vue-property-decorator";
 export default class BulkExchangeApp extends Vue {
   amount: number = 0;
   price: number = 0;
+  minStackSize: number = 1;
   create() {
-    saveCurrenCurrencyData(this.amount, this.price);
+    saveCurrenCurrencyData(this.amount, this.price, this.minStackSize);
   }
 }
 
