@@ -18,8 +18,17 @@
             <input v-model="complexPrice" type="checkbox" title="Complex price (instead of string offer)"/>
           </div>
         </td>
-        <td class="fsd" colspan="2">
-          <button class="btn" title="generate file for AHK" @click="save">
+        <td class="fsd">
+          <input
+            v-model.number="minUniqIgns"
+            placeholder="Min IGNs"
+            title="Minimal number of unique player names enough to create the file"
+            class="form-control"
+            type="text"
+          />
+        </td>
+        <td class="fsd">
+          <button class="btn create-btn" title="generate file for AHK" @click="save">
             Create File
           </button>
         </td>
@@ -75,6 +84,8 @@ export default class SearchApp extends Vue {
 
   private complexPrice = false;
 
+  private minUniqIgns: number = 20;
+
   private offer = "My offer is 1 chaos";
 
   @Prop()
@@ -87,7 +98,7 @@ export default class SearchApp extends Vue {
 
   async save() {
     this.$logger.log("triggering saving to file")();
-    await saveCurrentData(this.offer);
+    await saveCurrentData(this.offer, this.minUniqIgns);
   }
 
   clear() {
@@ -102,16 +113,11 @@ export default class SearchApp extends Vue {
 </script>
 <style lang="sass" scoped>
 
-
   .fsd
     min-width: 180px
 
   td
-    padding: 0 5px
-
-  tr
-    padding-bottom: 5px
-
+    padding: 4px
 
   .kms
     width: 100%

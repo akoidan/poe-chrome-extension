@@ -10,7 +10,7 @@
     "start:pathofexile.com": "NODE_OPTIONS='--max-old-space-size=8192' APP_TARGET=pathofexile.com webpack-dev-server --host 0.0.0.0 --config build/webpack.config.dev.js --hot --port 8080 --colors",
     "start:prod": "APP_WATCH=true webpack --config build/webpack.config.prod.js",
     "start:test": "APP_VERSION=app-v1 APP_TEST=true webpack-dev-server --host 0.0.0.0 --config build/webpack.config.dev.js --hot --port 8080 --colors",
-    "test:cypress:run": "CYPRESS_baseUrl=http://localhost:8080 CYPRESS_coverage=true start-server-and-test 'servor dist index.html 8080' 8080 'cypress run'",
+    "test:cypress:run": "CYPRESS_baseUrl=http://localhost:8080 CYPRESS_coverage=true start-server-and-test 'start:pathofexile.com' 8080 'cypress run'",
     "test:cypress:run:report": "run-s -c test:cypress:run test:reports:combine test:reports:generate",
     "test:cypress:debug": "CYPRESS_baseUrl=http://localhost:8080 CYPRESS_coverage=true cypress open",
     "test:coverage": "nyc report --reporter=text && nyc check-coverage",

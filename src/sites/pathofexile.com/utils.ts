@@ -17,12 +17,17 @@ export async function getData(offer: string): Promise<string> {
     (a) => a.querySelector(".whisper-btn"),
   ) as unknown as HTMLInputElement[];
   let fileContent = "";
-  const initialText = await navigator.clipboard.readText();
+  const initialText = await window.navigator.clipboard.readText();
   globalLogger.log("Found {} entries", whisperButtons.length)();
   for (let btnI = 0; btnI < whisperButtons.length; btnI++) {
-    whisperButtons[btnI].click();
-    const text = await navigator.clipboard.readText();
-    if (text === initialText && !initialText.includes("I want to")) {
+    let btn = whisperButtons[btnI];
+    console.log(btn)
+    // btn.scrollIntoView();
+    // await sleep(100);
+    btn.click();
+    await sleep(1)
+    const text = await window.navigator.clipboard.readText();
+    if (btnI === 0 && text === initialText && !initialText.includes("I want to")) {
       throw Error("Copy functionality is broken");
     }
     fileContent += `${text} ${offer}\n`;
@@ -122,23 +127,29 @@ async function loadMore(): Promise<boolean> {
   let j = 50;
   do {
     window.scrollTo(0, document.body.scrollHeight);
-    (document.querySelector(".load-more-btn") as HTMLInputElement).click();
+    let loadMoreBtn: HTMLInputElement = document.querySelector(".load-more-btn") as HTMLInputElement;
+    if (!loadMoreBtn) { // nothing more to load, btn won't show
+      break
+    }
+    (loadMoreBtn).click();
     if (prevScrollHeight !== document.body.scrollHeight) {
       break;
     }
     await sleep(200);
     j--;
   } while (j > 0);
+  window.scrollTo(0, 0);
+  await sleep(500);
   return j > 0;
 }
 
-async function loadUntilEnough(): Promise<void> {
+async function loadUntilEnough(loadMaxUniqueIgns: number): Promise<void> {
   let i = ApiConsts.LOAD_MORE_TIMES;
   do {
     const pl = Array.from(document.querySelectorAll(".profile-link"));
     const uniqueIgns = new Set(pl.map((a) => a.textContent));
-    if (uniqueIgns.size > ApiConsts.LOAD_MORE_WHISPERS) {
-      globalLogger.log("reached 15 entries, exiting")();
+    if (uniqueIgns.size > loadMaxUniqueIgns) {
+      globalLogger.log("reached {} entries, exiting", loadMaxUniqueIgns)();
       break;
     }
     i--;
@@ -150,8 +161,8 @@ async function loadUntilEnough(): Promise<void> {
   } while (i > 0);
 }
 
-export async function saveCurrentData(price: string) {
-  await loadUntilEnough();
+export async function saveCurrentData(price: string, loadMaxUniqueIgns: number) {
+  await loadUntilEnough(loadMaxUniqueIgns);
   const test = await getData(price);
   saveToFile(test);
 }

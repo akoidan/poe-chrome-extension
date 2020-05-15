@@ -19,7 +19,6 @@ export const ApiConsts: Consts = {
   API_URL,
   APP_VERSION,
   LOAD_MORE_TIMES: 10, // Amount of times pathofexile.com will scroll to bottom to load more content if igns are duplicates
-  LOAD_MORE_WHISPERS: 10, // Amount of lines in resulting file that's enough so pathofexile.com will scroll to bottom to load more content if igns are duplicates NO MORE
   DISPLAY_ALERTS_MS: 30000,
   IS_DEBUG,
   FILE_NAME: "buyItemsList.txt",

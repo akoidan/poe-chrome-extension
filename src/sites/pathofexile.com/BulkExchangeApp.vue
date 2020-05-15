@@ -2,11 +2,11 @@
   <div class="inline">
     <div>
       <label>Amount</label>
-      <input v-model.number="amount" type="number" class="form-control"/>
+      <input placeholder="Amount" v-model.number="amount" type="number" class="form-control"/>
     </div>
     <div>
       <label>Price limit</label>
-      <input v-model.number="price" type="number" class="form-control"/>
+      <input placeholder="Price Limit" v-model.number="price" type="number" class="form-control"/>
     </div>
     <div>
       <label>Click bellow to generate file</label>
@@ -36,8 +36,7 @@ export default class BulkExchangeApp extends Vue {
     flex-direction: row
     > *
       flex: 1
-    div
-      padding: 0 10px
+      padding: 4px
   button
     width: 100%
   input

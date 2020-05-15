@@ -29,6 +29,7 @@ module.exports = merge(config, {
       try {
         let result =  {setup: require(`../src/sites/${target}/devserver`)};
         console.log(`Creating devserver for ${target}`);
+        return result;
       } catch(e) {
         return {}
       }

@@ -30,7 +30,7 @@ export default class Pathofexile extends Vue {
     font-family: FontinSmallcaps, sans-serif
     max-width: 1520px
     margin: auto
-    padding: 10px
+    padding: 4px 2px
 
     ::v-deep  button
       color: #e2e2e2
@@ -38,9 +38,16 @@ export default class Pathofexile extends Vue {
       position: relative
       width: 100%
       padding: 6px
+      min-width: 96px
       line-height: 16px
       min-height: 34px
-      min-width: 34px
+      &:hover
+        background-color: #2d3136
+      &.create-btn
+        background-color: #5a3806
+        border-color: #8a5609
+        &:hover
+          background-color: #724708
 
     ::v-deep input[type=text]
         color: #fff8e1

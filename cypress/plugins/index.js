@@ -7,6 +7,9 @@ const webpackOptions = require('../../build/cypress.config');
 const {existsSync, mkdirSync, readFileSync, writeFileSync} = require("fs");
 const execa = require("execa");
 const debug = require("debug")("code-coverage");
+const fs = require('fs');
+var rimraf = require("rimraf");
+const path = require('path');
 
 /**
  * Replace source-map's path by the corresponding absolute file path (coverage report wouldn't work
@@ -43,6 +46,55 @@ function saveCoverage(coverage) {
   writeFileSync(nycFilename, JSON.stringify(coverage, null, 2));
 }
 
+
+/**
+ * https://github.com/cypress-io/cypress/issues/949#issuecomment-607278965
+ */
+const downloadsDirectory = path.join(__dirname, '..', 'downloads');
+
+/**
+ * https://github.com/cypress-io/cypress/issues/949#issuecomment-607278965
+ */
+const cleanDownloadsDirectory = () => {
+
+  rimraf.sync(downloadsDirectory)
+  return null;
+};
+
+/**
+ * https://github.com/cypress-io/cypress/issues/949#issuecomment-607278965
+ */
+const setUpDownloadsDirectory = (browser, options) => {
+  cleanDownloadsDirectory();
+
+  options.preferences.default.profile = {
+    content_settings: {
+      exceptions: {
+        automatic_downloads: {
+          '*': { setting: 1 }
+        }
+      }
+    }
+  };
+
+  if (browser.family === 'chromium' && browser.name !== 'electron') {
+    options.preferences.default.profile = { default_content_settings: { popups: 0 } };
+    options.preferences.default.download = { default_directory: downloadsDirectory };
+
+    return options;
+  }
+
+  // not-tested on FF
+  if (browser.family === 'firefox') {
+    options.preferences['browser.download.dir'] = downloadsDirectory;
+    options.preferences['browser.download.folderList'] = 2;
+    options.preferences['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv';
+
+    return options;
+  }
+};
+
+
 let pact;
 module.exports = (on, config) => {
   /**
@@ -52,6 +104,8 @@ module.exports = (on, config) => {
    * in order to remove hardcoded configurations like outputFolder, reportDirectory, reporter,
    **/
   on("task", {
+
+    cleanDownloadsDirectory,
     /**
      * Clears accumulated code coverage information.
      *
@@ -132,6 +186,6 @@ module.exports = (on, config) => {
       return execa(command, args, {stdio: "inherit"});
     },
   });
-
+  on('before:browser:launch', setUpDownloadsDirectory);
   on("file:preprocessor", wp({webpackOptions}));
 };
